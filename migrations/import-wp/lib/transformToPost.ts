@@ -29,38 +29,38 @@ export async function transformToPost(
     }
 
     if (Array.isArray(wpDoc.categories) && wpDoc.categories.length) {
-    doc.categories = wpDoc.categories.map((catId) => ({
-        _key: uuid(),
-        _type: 'reference',
-        _ref: `category-${catId}`,
-    }))
+        doc.categories = wpDoc.categories.map((catId) => ({
+            _key: uuid(),
+            _type: 'reference',
+            _ref: `category-${catId}`,
+        }))
     }
 
     if (Array.isArray(wpDoc.tags) && wpDoc.tags.length) {
-        doc.categories = wpDoc.tags.map((tagId) => ({
+        doc.tags = wpDoc.tags.map((tagId) => ({
             _key: uuid(),
             _type: 'reference',
-            _ref: `category-${tagId}`,
+            _ref: `tag-${tagId}`,
         }))
     }
 
     if (wpDoc.author) {
-    doc.author = {
-        _type: 'reference',
-        _ref: `author-${wpDoc.author}`,
-    }
+        doc.author = {
+            _type: 'reference',
+            _ref: `author-${wpDoc.author}`,
+        }
     }
 
     if (wpDoc.date) {
-    doc.date = wpDoc.date
+        doc.date = wpDoc.date   
     }
 
     if (wpDoc.modified) {
-    doc.modified = wpDoc.modified
+        doc.modified = wpDoc.modified
     }
 
     if (wpDoc.status) {
-    doc.status = wpDoc.status as StagedPost['status']
+        doc.status = wpDoc.status as StagedPost['status']
     }
 
     doc.sticky = wpDoc.sticky == true
@@ -69,25 +69,25 @@ export async function transformToPost(
         // Image exists already in dataset
         if (existingImages[wpDoc.featured_media]) {
             doc.featuredMedia = sanityIdToImageReference(existingImages[wpDoc.featured_media])
-        } else {
-            // Retrieve image details from WordPress
-            const metadata = await wpImageFetch(wpDoc.featured_media)
-
-            if (metadata?.source?.url) {
-            // Upload to Sanity
-            const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
-
-            if (asset) {
-                doc.featuredMedia = sanityIdToImageReference(asset._id)
-                existingImages[wpDoc.featured_media] = asset._id
-            }
         }
+        // } else {
+        //     // Retrieve image details from WordPress
+        //     const metadata = await wpImageFetch(wpDoc.featured_media)
+
+        //     if (metadata?.source?.url) {
+        //     // Upload to Sanity
+        //     const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
+
+        //     if (asset) {
+        //         doc.featuredMedia = sanityIdToImageReference(asset._id)
+        //         existingImages[wpDoc.featured_media] = asset._id
+        //     }
+        // }
     }
 
     if (wpDoc.content) {
         doc.content = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
     }
-}
 
     return doc
 }

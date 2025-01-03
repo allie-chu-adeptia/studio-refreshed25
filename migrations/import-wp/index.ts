@@ -1,11 +1,12 @@
 import {createClient} from '@sanity/client'
 import pLimit from 'p-limit'
 import {createOrReplace, defineMigration} from 'sanity/migrate'
-import type {WP_REST_API_Post, WP_REST_API_Term} from 'wp-types'
+import type {WP_REST_API_Post, WP_REST_API_Term, WP_REST_API_User} from 'wp-types'
 
 import {getDataTypes} from './lib/getDataTypes'
 import {sanityFetchImages} from './lib/sanityFetchImages'
 import {transformToPost} from './lib/transformToPost'
+import {transformToAuthor, transformToCat, transformToTag} from './lib/transformtoBasic'
 import {wpDataTypeFetch} from './lib/wpDataTypeFetch'
 
 const limit = pLimit(5)
@@ -39,10 +40,19 @@ export default defineMigration({
                 return doc
               } else if (wpType === 'pages') {
                 wpDoc = wpDoc as WP_REST_API_Post
+                // TODO
               } else if (wpType === 'categories') {
                 wpDoc = wpDoc as WP_REST_API_Term
+                const doc = await transformToCat(wpDoc, client, existingImages)
+                return doc
               } else if (wpType === 'tags') {
                 wpDoc = wpDoc as WP_REST_API_Term
+                const doc = await transformToTag(wpDoc, client, existingImages)
+                return doc
+              } else if (wpType === 'users') {
+                wpDoc = wpDoc as WP_REST_API_User
+                const doc = await transformToAuthor(wpDoc, client, existingImages)
+                return doc
               }
 
               hasMore = false
