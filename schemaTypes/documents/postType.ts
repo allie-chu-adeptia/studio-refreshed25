@@ -36,7 +36,8 @@ export const postType = defineType({
       type: 'portableText',
     }),
     defineField({name: 'featuredMedia', type: 'image'}),
-    defineField({name: 'sticky', type: 'boolean'}),
+    defineField({name: 'featuredMediaAlt', type: 'string'}),
+    defineField({name: 'featured', type: 'boolean'}),
     defineField({
       name: 'author',
       type: 'reference',

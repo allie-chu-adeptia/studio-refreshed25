@@ -151,7 +151,8 @@ export type Post = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-  sticky?: boolean
+  featuredMediaAlt?: string
+  featured?: boolean
   author?: {
     _ref: string
     _type: 'reference'
@@ -232,8 +233,7 @@ export type Author = {
   _rev: string
   name?: string
   slug?: Slug
-  url?: string
-  description?: string
+  link?: string
   avatar?: {
     asset?: {
       _ref: string

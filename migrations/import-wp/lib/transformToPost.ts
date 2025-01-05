@@ -1,6 +1,6 @@
 import {uuid} from '@sanity/uuid'
 import {decode} from 'html-entities'
-import type {SanityClient} from 'sanity'
+import type {PortableTextBlock, SanityClient} from 'sanity'
 import type {WP_REST_API_Post} from 'wp-types'
 
 import type {Post} from '../../../sanity.types'
@@ -63,7 +63,7 @@ export async function transformToPost(
         doc.status = wpDoc.status as StagedPost['status']
     }
 
-    doc.sticky = wpDoc.sticky == true
+    doc.featured = false
 
     if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
         // Image exists already in dataset
@@ -87,6 +87,7 @@ export async function transformToPost(
 
     if (wpDoc.content) {
         doc.content = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
+        doc.excerpt = doc.content ? [doc.content[0]] : []
     }
 
     return doc

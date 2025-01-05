@@ -9,6 +9,7 @@ export const authorType = defineType({
   fields: [
     defineField({name: 'name', type: 'string'}),
     defineField({name: 'slug', type: 'slug'}),
+    defineField({name: 'link', type: 'url'}),
     defineField({name: 'avatar', type: 'image'}),
   ],
   preview: {

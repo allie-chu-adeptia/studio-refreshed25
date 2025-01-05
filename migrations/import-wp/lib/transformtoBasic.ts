@@ -3,6 +3,7 @@ import type {SanityClient} from 'sanity'
 import type {WP_REST_API_Term, WP_REST_API_User} from 'wp-types'
 
 import type {Category, Tag, Author} from '../../../sanity.types'
+import { sanityIdToImageReference } from './sanityIdToImageReference'
 
 // Remove these keys because they'll be created by Content Lake
 type StagedCategory = Omit<Category, '_createdAt' | '_updatedAt' | '_rev'>
