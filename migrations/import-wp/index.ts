@@ -5,10 +5,9 @@ import type {WP_REST_API_Post, WP_REST_API_Term, WP_REST_API_User} from 'wp-type
 
 import {getDataTypes} from './lib/getDataTypes'
 import {sanityFetchImages} from './lib/sanityFetchImages'
-import {transformToPost} from './lib/transformToPost'
-import {transformToAuthor, transformToCat, transformToTag} from './lib/transformtoBasic'
+import {transformToCat, transformtoConnector, transformToTag, transformToTeamMember} from './lib/transformtoBasic'
 import {wpDataTypeFetch} from './lib/wpDataTypeFetch'
-
+import {transformToResource} from './lib/transformtoResource'
 const limit = pLimit(5)
 
 // Add image imports, parallelized and limited
@@ -16,6 +15,7 @@ export default defineMigration({
   title: 'Import WP JSON data',
 
   async *migrate(docs, context) {
+    
     // Create a full client to handle image uploads
     const client = createClient(context.client.config())
 
@@ -23,22 +23,27 @@ export default defineMigration({
     const existingImages = await sanityFetchImages(client)
 
     const {wpType} = getDataTypes(process.argv)
+    console.log('Fetched data type:', wpType)
+    
     let page = 1
     let hasMore = true
 
     while (hasMore) {
       try {
+        console.log(`Fetching page ${page} of ${wpType}...`)
         let wpData = await wpDataTypeFetch(wpType, page)
+        console.log(`Received ${wpData?.length || 0} items`)
 
         if (Array.isArray(wpData) && wpData.length) {
           // Create an array of concurrency-limited promises to stage documents
           const docs = wpData.map((wpDoc) =>
             limit(async () => {
-              if (wpType === 'posts') {
-                wpDoc = wpDoc as WP_REST_API_Post
-                const doc = await transformToPost(wpDoc, client, existingImages)
-                return doc
-              } else if (wpType === 'pages') {
+              // if (wpType === 'posts') {
+              //   wpDoc = wpDoc as WP_REST_API_Post
+              //   const doc = await transformToPost(wpDoc, client, existingImages)
+              //   return doc
+              // } else 
+              if (wpType === 'pages') {
                 wpDoc = wpDoc as WP_REST_API_Post
                 // TODO
               } else if (wpType === 'categories') {
@@ -51,10 +56,29 @@ export default defineMigration({
                 return doc
               } else if (wpType === 'users') {
                 wpDoc = wpDoc as WP_REST_API_User
-                const doc = await transformToAuthor(wpDoc, client, existingImages)
+                const doc = await transformToTeamMember(wpDoc, client, existingImages)
+                return doc
+              } else if (wpType === 'datasheets' 
+                || wpType === 'ebooks' 
+                || wpType === 'infographics'
+                || wpType === 'posts'
+                || wpType === 'news' 
+                || wpType === 'tutorials' 
+                || wpType === 'videos' 
+                || wpType === 'webinars' 
+                || wpType === 'white-papers') {
+                wpDoc = wpDoc as WP_REST_API_Post
+                const doc = await transformToResource(wpDoc, client, existingImages, wpType)
+                return doc
+              } else if (wpType === 'case-study') {
+                wpDoc = wpDoc as WP_REST_API_Post
+                // TODO
+              } else if (wpType === 'connector') {
+                wpDoc = wpDoc as WP_REST_API_Post
+                const doc = await transformtoConnector(wpDoc, client, existingImages)
                 return doc
               }
-
+              
               hasMore = false
               throw new Error(`Unhandled WordPress type: ${wpType}`)
             }),
