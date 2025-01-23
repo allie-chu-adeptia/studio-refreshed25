@@ -112,8 +112,7 @@ export const resourceType = defineType({
     select: {
       title: 'title',
       subtitle: 'teamMember.name',
-      media: 'featuredImage',
-      status: 'status',
+      media: 'featuredImage'
     },
   },
 })

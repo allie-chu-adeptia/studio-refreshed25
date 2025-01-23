@@ -12,83 +12,122 @@ import {wpImageFetch} from './wpImageFetch'
 // Remove these keys because they'll be created by Content Lake
 type StagedPost = Omit<Post, '_createdAt' | '_updatedAt' | '_rev'>
 
+interface YoastHeadJSON {
+    title?: string;
+    description?: string;
+    primary_focus_keyword?: string;
+    canonical?: string;
+    robots?: {
+        index?: string;
+        follow?: string;
+    };
+}
+
+type WP_REST_API_Post_Extended = WP_REST_API_Post & {
+    yoast_head_json?: YoastHeadJSON;
+}
+
 export async function transformToPost(
-    wpDoc: WP_REST_API_Post,
+    wpDoc: WP_REST_API_Post_Extended,
     client: SanityClient,
     existingImages: Record<string, string> = {},
 ): Promise<StagedPost> {
-    const doc: StagedPost = {
-      _id: `post-${wpDoc.id}`,
-      _type: 'post',
-    }
-
-    doc.title = decode(wpDoc.title.rendered).trim()
-
-    if (wpDoc.slug) {
-        doc.slug = {_type: 'slug', current: wpDoc.slug}
-    }
-
-    if (Array.isArray(wpDoc.categories) && wpDoc.categories.length) {
-        doc.categories = wpDoc.categories.map((catId) => ({
-            _key: uuid(),
-            _type: 'reference',
-            _ref: `category-${catId}`,
-        }))
-    }
-
-    if (Array.isArray(wpDoc.tags) && wpDoc.tags.length) {
-        doc.tags = wpDoc.tags.map((tagId) => ({
-            _key: uuid(),
-            _type: 'reference',
-            _ref: `tag-${tagId}`,
-        }))
-    }
-
-    if (wpDoc.author) {
-        doc.author = {
-            _type: 'reference',
-            _ref: `author-${wpDoc.author}`,
+    try {
+        const doc: StagedPost = {
+        _id: `post-${wpDoc.id}`,
+        _type: 'post',
         }
-    }
 
-    if (wpDoc.date) {
-        doc.date = wpDoc.date   
-    }
+        console.log(`Processing post ${wpDoc.id}...`)
 
-    if (wpDoc.modified) {
-        doc.modified = wpDoc.modified
-    }
+        doc.title = decode(wpDoc.title.rendered).trim()
 
-    if (wpDoc.status) {
-        doc.status = wpDoc.status as StagedPost['status']
-    }
-
-    doc.featured = false
-
-    if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
-        // Image exists already in dataset
-        if (existingImages[wpDoc.featured_media]) {
-            doc.featuredMedia = sanityIdToImageReference(existingImages[wpDoc.featured_media])
+        doc.metadata = {
+            _type: 'metadata',
+            seoTitle: decode(wpDoc.yoast_head_json?.title || wpDoc.title?.rendered || ''),
+            description: decode(wpDoc.yoast_head_json?.description || wpDoc.excerpt?.rendered || '').replace(/<[^>]*>/g, ''),
+            focusKeyprase: wpDoc.yoast_head_json?.primary_focus_keyword || '',
+            slug: {
+                _type: 'slug',
+                current: wpDoc.slug
+            },
+            advanced: {
+                canonicalUrl: '',
+                allowSearchResults: wpDoc.yoast_head_json?.robots?.index !== 'noindex',
+                followLinks: wpDoc.yoast_head_json?.robots?.follow !== 'nofollow'
+            }
         }
-        // } else {
-        //     // Retrieve image details from WordPress
-        //     const metadata = await wpImageFetch(wpDoc.featured_media)
 
-        //     if (metadata?.source?.url) {
-        //     // Upload to Sanity
-        //     const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
+        if (Array.isArray(wpDoc.categories) && wpDoc.categories.length) {
+            doc.categories = wpDoc.categories.map((catId) => ({
+                _key: uuid(),
+                _type: 'reference',
+                _ref: `category-${catId}`,
+            }))
+        }
 
-        //     if (asset) {
-        //         doc.featuredMedia = sanityIdToImageReference(asset._id)
-        //         existingImages[wpDoc.featured_media] = asset._id
-        //     }
-        // }
+        if (Array.isArray(wpDoc.tags) && wpDoc.tags.length) {
+            doc.tags = wpDoc.tags.map((tagId) => ({
+                _key: uuid(),
+                _type: 'reference',
+                _ref: `tag-${tagId}`,
+            }))
+        }
+
+        if (wpDoc.author) {
+            doc.author = {
+                _type: 'reference',
+                _ref: `author-${wpDoc.author}`,
+            }
+        }
+
+        if (wpDoc.date) {
+            doc.date = wpDoc.date   
+        }
+
+        if (wpDoc.modified) {
+            doc.modified = wpDoc.modified
+        }
+
+        if (wpDoc.status) {
+            doc.status = wpDoc.status as StagedPost['status']
+        }
+
+        doc.featured = false
+
+        if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
+            // Image exists already in dataset
+            if (existingImages[wpDoc.featured_media]) {
+                doc.featuredMedia = sanityIdToImageReference(existingImages[wpDoc.featured_media])
+            }
+            } else {
+                // Retrieve image details from WordPress
+                const metadata = await wpImageFetch(wpDoc.featured_media as number)
+
+                if (metadata?.source?.url) {
+                // Upload to Sanity
+                const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
+
+                if (asset) {
+                    doc.featuredMedia = sanityIdToImageReference(asset._id)
+                    existingImages[wpDoc.featured_media as number] = asset._id
+                }
+            }
+        }
+
+        if (wpDoc.content) {
+            doc.content = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
+            doc.excerpt = doc.content ? [doc.content[0]] : []
+        }
+
+        if (!doc.content) {
+            console.warn(`Post ${wpDoc.id} has no content`)
+        }
+
+        return doc
+    } catch (error) {
+        console.error(`Error transforming post ${wpDoc.id}:`, error)
+        console.error('WP document:', JSON.stringify(wpDoc, null, 2))
+        throw error
     }
-
-    if (wpDoc.content) {
-        doc.content = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
-        doc.excerpt = doc.content ? [doc.content[0]] : []
-    }
-
-    return doc
 }

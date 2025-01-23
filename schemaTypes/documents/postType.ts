@@ -8,7 +8,11 @@ export const postType = defineType({
   icon: ComposeIcon,
   fields: [
     defineField({name: 'title', type: 'string'}),
-    defineField({name: 'slug', type: 'slug'}),
+    defineField({
+      name: 'metadata',
+      type: 'metadata',
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({name: 'date', type: 'datetime'}),
     defineField({name: 'modified', type: 'datetime'}),
     defineField({
@@ -57,7 +61,7 @@ export const postType = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'author.name',
+      subtitle: 'teamMember.name',
       media: 'featuredMedia',
     },
   },

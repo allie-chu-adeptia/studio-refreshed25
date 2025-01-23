@@ -73,6 +73,16 @@ export default defineConfig({
                           .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
                       ),
                     S.listItem()
+                    .title('Infographics')
+                    .icon(CaseIcon)
+                    .child(
+                      S.documentList()
+                        .title('Infographics')
+                        .schemaType('resource')
+                        .filter('_type == "resource" && type == "Infographic"')
+                        .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                    ),
+                    S.listItem()
                       .title('News')
                       .icon(TrendUpwardIcon)
                       .child(

@@ -8,7 +8,9 @@ import {sanityFetchImages} from './lib/sanityFetchImages'
 import {transformToCat, transformtoConnector, transformToTag, transformToTeamMember} from './lib/transformtoBasic'
 import {wpDataTypeFetch} from './lib/wpDataTypeFetch'
 import {transformToResource} from './lib/transformtoResource'
+import {transformToPost} from './lib/transformToPost'
 const limit = pLimit(5)
+import {checkpointManager} from './lib/checkpoint'
 
 // Add image imports, parallelized and limited
 export default defineMigration({
@@ -23,16 +25,13 @@ export default defineMigration({
     const existingImages = await sanityFetchImages(client)
 
     const {wpType} = getDataTypes(process.argv)
-    console.log('Fetched data type:', wpType)
     
     let page = 1
     let hasMore = true
 
     while (hasMore) {
       try {
-        console.log(`Fetching page ${page} of ${wpType}...`)
         let wpData = await wpDataTypeFetch(wpType, page)
-        console.log(`Received ${wpData?.length || 0} items`)
 
         if (Array.isArray(wpData) && wpData.length) {
           // Create an array of concurrency-limited promises to stage documents
