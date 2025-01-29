@@ -3,6 +3,7 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon} from '@sanity/icons'
+import { iconPicker } from 'sanity-plugin-icon-picker';
 import sanityClient from './sanity.client'
 import { Page } from './sanity.types'
 
@@ -168,6 +169,7 @@ export default defineConfig({
           ])
     }),
     visionTool(),
+    iconPicker(),
   ],
 
   schema: {

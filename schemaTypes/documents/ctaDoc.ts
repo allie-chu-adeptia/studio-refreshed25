@@ -22,6 +22,19 @@ export const ctaType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'displayStyle',
+      title: 'Display Style',
+      description: 'This is the style of the CTA banner and buttons to maintain consistency for each campaign',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Primary', value: 'primary'},
+          {title: 'Secondary', value: 'secondary'},
+          {title: 'Tertiary', value: 'tertiary'},
+        ]
+      }
+    }),
+    defineField({
       name: 'pageReference',
       title: 'Page Reference',
       type: 'reference',

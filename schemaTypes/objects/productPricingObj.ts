@@ -30,8 +30,26 @@ export const productPricingType = defineType({
       name: 'content',
       title: 'Content',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'content'}]}],
-      validation: (Rule) => Rule.required(),
+      of: [{
+        type: 'object',
+        fields: [
+          {
+            name: 'header',
+            title: 'Header',
+            type: 'string',
+          },
+          {
+            name: 'subheader',
+            title: 'Subheader', 
+            type: 'string'
+          },
+          {
+            name: 'icon',
+            title: 'Icon',
+            type: 'image'
+          }
+        ]
+      }],
     }),
   ],
   preview: {

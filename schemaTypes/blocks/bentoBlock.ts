@@ -72,7 +72,8 @@ export const bentoType = defineType({
           },
           {
             name: 'link',
-            type: 'url',
+            type: 'reference',
+            to: [{type: 'page'}],
           }
         ],
       preview: {

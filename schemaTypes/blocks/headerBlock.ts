@@ -16,10 +16,6 @@ export const headerType = defineType({
         validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'image',
-      type: 'image',
-    }),
-    defineField({
         name: 'background',
         title: 'Background', 
         type: 'backgroundStyle',
@@ -32,10 +28,6 @@ export const headerType = defineType({
       of: [{
         type: 'object',
         fields: [
-          {
-            name: 'icon',
-            type: 'image',
-          },
           {
             name: 'title',
             type: 'string',

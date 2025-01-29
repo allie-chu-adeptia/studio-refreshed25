@@ -52,11 +52,20 @@ export type ProductPricing = {
   button?: Button
   description?: string
   content?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
+    header?: string
+    subheader?: string
+    icon?: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
     _key: string
-    [internalGroqTypeReferenceTo]?: 'content'
   }>
 }
 
@@ -217,6 +226,7 @@ export type Cta = {
   _rev: string
   campaignTitle?: string
   buttonText?: string
+  displayStyle?: 'primary' | 'secondary' | 'tertiary'
   pageReference?: {
     _ref: string
     _type: 'reference'
@@ -283,187 +293,6 @@ export type Testimonial = {
   }
   layout?: 'simpleCentered' | 'largeAvatar'
   quote?: PortableText
-}
-
-export type StatSection = {
-  _type: 'statSection'
-  header?: HeaderStyle
-  background?: BackgroundStyle
-  stats?: Array<{
-    statName?: string
-    statValue?: string
-    _key: string
-  }>
-}
-
-export type RelatedResource = {
-  _type: 'relatedResource'
-  header?: HeaderStyle
-  tag?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'tag'
-  }>
-  type?: 'latest' | 'selected'
-  resource?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'resource'
-  }>
-}
-
-export type RelatedConnector = {
-  _type: 'relatedConnector'
-  header?: HeaderStyle
-  connector?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'connector'
-  }>
-}
-
-export type Pricing = {
-  _type: 'pricing'
-  header?: HeaderStyle
-  productPricing?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'productPricing'
-  }>
-}
-
-export type LogoSection = {
-  _type: 'logoSection'
-  logo?: Array<{
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-    _key: string
-  }>
-}
-
-export type HeaderSection = {
-  _type: 'headerSection'
-  header?: HeaderStyle
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  background?: BackgroundStyle
-  content?: Array<{
-    icon?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
-    title?: string
-    subhead?: string
-    _key: string
-  }>
-}
-
-export type Faq = {
-  _type: 'faq'
-  header?: HeaderStyle
-  displayStyle?: 'accordion' | 'inline'
-  content?: Array<{
-    question?: string
-    answer?: string
-    _key: string
-  }>
-}
-
-export type CtaSection = {
-  _type: 'ctaSection'
-  header?: HeaderStyle
-  styleAndLayout?: {
-    layout?: 'centered' | 'left-aligned' | 'split'
-    background?: BackgroundStyle
-  }
-  cta?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'cta'
-  }>
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-}
-
-export type ContentSection = {
-  _type: 'contentSection'
-  header?: HeaderStyle
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  body?: PortableText
-  button?: Button
-  styleAndLayout?: {
-    layout?: 'image-left' | 'image-right' | 'image-center'
-    background?: BackgroundStyle
-  }
-  subPoints?: Array<{
-    image?: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
-    header?: string
-    subheader?: string
-    button?: Button
-    _key: string
-  }>
 }
 
 export type Resource = {
@@ -602,95 +431,6 @@ export type HubspotForm = {
   sfdcCampaignId?: string
 }
 
-export type Page = {
-  _id: string
-  _type: 'page'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  metadata?: Metadata
-  title?: string
-  parent?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'page'
-  }
-  icon?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  tag?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'tag'
-  }>
-  category?: Array<{
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    _key: string
-    [internalGroqTypeReferenceTo]?: 'category'
-  }>
-  block?: Array<
-    | {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        _key: string
-        [internalGroqTypeReferenceTo]?: 'testimonial'
-      }
-    | ({
-        _key: string
-      } & CaseStudy)
-    | ({
-        _key: string
-      } & RelatedResource)
-    | ({
-        _key: string
-      } & RelatedConnector)
-    | ({
-        _key: string
-      } & Faq)
-    | ({
-        _key: string
-      } & Pricing)
-    | ({
-        _key: string
-      } & ContentSection)
-    | ({
-        _key: string
-      } & CtaSection)
-    | ({
-        _key: string
-      } & HeaderSection)
-    | ({
-        _key: string
-      } & StatSection)
-    | ({
-        _key: string
-      } & LogoSection)
-    | ({
-        _key: string
-      } & BentoSection)
-  >
-}
-
-export type Button = {
-  _type: 'button'
-  title?: string
-  url?: string
-}
-
 export type Customer = {
   _id: string
   _type: 'customer'
@@ -782,18 +522,150 @@ export type Slug = {
   source?: string
 }
 
-export type Metadata = {
-  _type: 'metadata'
-  seoTitle?: string
-  description?: string
-  focusKeyprase?: string
-  slug?: Slug
-  advanced?: {
-    breadcrumbsTitle?: string
-    canonicalUrl?: string
-    allowSearchResults?: boolean
-    followLinks?: boolean
+export type StatSection = {
+  _type: 'statSection'
+  header?: HeaderStyle
+  background?: BackgroundStyle
+  stats?: Array<{
+    statName?: string
+    leadingUnit?: string
+    statValue?: number
+    trailingUnit?: string
+    _key: string
+  }>
+}
+
+export type RelatedResource = {
+  _type: 'relatedResource'
+  header?: HeaderStyle
+  tag?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'tag'
+  }>
+  type?: 'latest' | 'selected'
+  resource?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'resource'
+  }>
+}
+
+export type RelatedConnector = {
+  _type: 'relatedConnector'
+  header?: HeaderStyle
+  connector?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'connector'
+  }>
+}
+
+export type Pricing = {
+  _type: 'pricing'
+  header?: HeaderStyle
+  productPricing?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'productPricing'
+  }>
+}
+
+export type LogoSection = {
+  _type: 'logoSection'
+  logo?: Array<{
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+    _key: string
+  }>
+}
+
+export type HeaderSection = {
+  _type: 'headerSection'
+  header?: HeaderStyle
+  background?: BackgroundStyle
+  content?: Array<{
+    title?: string
+    subhead?: string
+    _key: string
+  }>
+}
+
+export type Faq = {
+  _type: 'faq'
+  header?: HeaderStyle
+  displayStyle?: 'accordion' | 'inline'
+  content?: Array<{
+    question?: string
+    answer?: string
+    _key: string
+  }>
+}
+
+export type CtaSection = {
+  _type: 'ctaSection'
+  header?: HeaderStyle
+  cta?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'cta'
+  }>
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
   }
+}
+
+export type ContentSection = {
+  _type: 'contentSection'
+  header?: HeaderStyle
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  button?: Button
+  styleAndLayout?: {
+    layout?: 'left' | 'right' | 'center'
+    background?: BackgroundStyle
+  }
+  subPoints?: Array<{
+    icon?: IconPicker
+    header?: string
+    subheader?: string
+    button?: Button
+    _key: string
+  }>
 }
 
 export type CaseStudy = {
@@ -829,9 +701,123 @@ export type BentoSection = {
     eyebrow?: string
     header?: string
     text?: string
-    link?: string
+    link?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'page'
+    }
     _key: string
   }>
+}
+
+export type Page = {
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  metadata?: Metadata
+  title?: string
+  parent?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'page'
+  }
+  icon?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  tag?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'tag'
+  }>
+  category?: Array<{
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    _key: string
+    [internalGroqTypeReferenceTo]?: 'category'
+  }>
+  block?: Array<
+    | {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        _key: string
+        [internalGroqTypeReferenceTo]?: 'testimonial'
+      }
+    | ({
+        _key: string
+      } & CaseStudy)
+    | ({
+        _key: string
+      } & RelatedResource)
+    | ({
+        _key: string
+      } & RelatedConnector)
+    | ({
+        _key: string
+      } & Faq)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & ContentSection)
+    | ({
+        _key: string
+      } & CtaSection)
+    | ({
+        _key: string
+      } & HeaderSection)
+    | ({
+        _key: string
+      } & StatSection)
+    | ({
+        _key: string
+      } & LogoSection)
+    | ({
+        _key: string
+      } & BentoSection)
+  >
+}
+
+export type Button = {
+  _type: 'button'
+  title?: string
+  url?: string
+  link?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'page'
+  }
+}
+
+export type Metadata = {
+  _type: 'metadata'
+  seoTitle?: string
+  description?: string
+  focusKeyprase?: string
+  slug?: Slug
+  advanced?: {
+    breadcrumbsTitle?: string
+    canonicalUrl?: string
+    allowSearchResults?: boolean
+    followLinks?: boolean
+  }
 }
 
 export type SanityImageCrop = {
@@ -893,7 +879,7 @@ export type SanityImageMetadata = {
 
 export type BackgroundStyle = {
   _type: 'backgroundStyle'
-  style?: 'light' | 'medium' | 'dark'
+  style?: 'light' | 'medium' | 'dark' | 'accent'
 }
 
 export type HeaderStyle = {
@@ -901,6 +887,14 @@ export type HeaderStyle = {
   eyebrow?: string
   header?: string
   subheader?: string
+  layout?: 'centered' | 'left-aligned' | 'right-aligned'
+}
+
+export type IconPicker = {
+  _type: 'iconPicker'
+  provider?: string
+  name?: string
+  svg?: string
 }
 
 export type AllSanitySchemaTypes =
@@ -918,6 +912,14 @@ export type AllSanitySchemaTypes =
   | Company
   | Category
   | Testimonial
+  | Resource
+  | TeamMember
+  | VideoEmbed
+  | SanityFileAsset
+  | HubspotForm
+  | Customer
+  | Connector
+  | Slug
   | StatSection
   | RelatedResource
   | RelatedConnector
@@ -927,19 +929,11 @@ export type AllSanitySchemaTypes =
   | Faq
   | CtaSection
   | ContentSection
-  | Resource
-  | TeamMember
-  | VideoEmbed
-  | SanityFileAsset
-  | HubspotForm
-  | Page
-  | Button
-  | Customer
-  | Connector
-  | Slug
-  | Metadata
   | CaseStudy
   | BentoSection
+  | Page
+  | Button
+  | Metadata
   | SanityImageCrop
   | SanityImageHotspot
   | SanityImageAsset
@@ -947,4 +941,5 @@ export type AllSanitySchemaTypes =
   | SanityImageMetadata
   | BackgroundStyle
   | HeaderStyle
+  | IconPicker
 export declare const internalGroqTypeReferenceTo: unique symbol

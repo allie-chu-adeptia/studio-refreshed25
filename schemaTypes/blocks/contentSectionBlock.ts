@@ -20,11 +20,11 @@ export const contentSectionType = defineType({
       title: 'Image',
       type: 'image',
     }),
-    defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'portableText',
-    }),
+    // defineField({
+    //   name: 'body',
+    //   title: 'Body',
+    //   type: 'portableText',
+    // }),
     defineField({
       name: 'button',
       title: 'Button',
@@ -45,12 +45,12 @@ export const contentSectionType = defineType({
           type: 'string',
           options: {
             list: [
-              {title: 'Image Left', value: 'image-left'},
-              {title: 'Image Right', value: 'image-right'},
-              {title: 'Image Center', value: 'image-center'},
+              {title: 'Aligned Left', value: 'left'},
+              {title: 'Aligned Right', value: 'right'},
+              {title: 'Aligned Center', value: 'center'},
             ],
           },
-          initialValue: 'image-center',
+          initialValue: 'center',
         }),
         defineField({
           name: 'background',
@@ -69,9 +69,13 @@ export const contentSectionType = defineType({
         title: 'Sub Point',
         fields: [
           {
-            name: 'image',
-            title: 'Image',
-            type: 'image'
+            name: 'icon',
+            title: 'Icon',
+            type: 'iconPicker',
+            options: {
+              providers: ["fa"],
+              outputFormat: 'react',
+            }
           },
           {
             name: 'header',
@@ -91,8 +95,8 @@ export const contentSectionType = defineType({
           }
         ]
       }],
-      description: 'Between 3 and 8 sub points',
-      validation: (Rule) => Rule.min(3).max(8)
+      description: 'Between 2 and 6 sub points. If image is present and not centered, up to 3 sub points will be displayed',
+      validation: (Rule) => Rule.min(2).max(6)
     }),
   ],
   preview: {

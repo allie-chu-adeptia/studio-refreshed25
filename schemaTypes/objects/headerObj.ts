@@ -21,5 +21,14 @@ export const headerStyle = defineType({
             title: 'Subheader',
             type: 'text',
         }),
+        defineField({
+            name: 'layout',
+            title: 'Layout',
+            type: 'string',
+            options: {
+                list: ['centered', 'left-aligned', 'right-aligned'],
+            },
+            initialValue: 'centered',
+        }),
     ]
 })

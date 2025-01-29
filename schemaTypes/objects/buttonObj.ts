@@ -18,7 +18,19 @@ export const buttonType = defineType({
       name: 'url',
       title: 'URL',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      description: 'URL link to an external page',
+      hidden: ({parent}) => !!parent?.link
     }),
+    defineField({
+      name: 'link',
+      title: 'Link', 
+      type: 'reference',
+      to: [{ type: 'page' }],
+      description: 'Link to an internal page',
+      options: {
+        disableNew: true
+      },
+      hidden: ({parent}) => !!parent?.url
+    })
   ],
 })

@@ -34,10 +34,20 @@ export const statsType = defineType({
             validation: (Rule) => Rule.required()
           },
           {
+            name: 'leadingUnit',
+            title: 'Leading Unit',
+            type: 'string',
+          },
+          {
             name: 'statValue', 
             title: 'Stat Value',
-            type: 'string',
+            type: 'number',
             validation: (Rule) => Rule.required()
+          },
+          {
+            name: 'trailingUnit',
+            title: 'Trailing Unit',
+            type: 'string',
           }
         ]
       }],

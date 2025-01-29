@@ -16,39 +16,10 @@ export const ctaSectionType = defineType({
         validation: (Rule) => Rule.required(),
     }),
     defineField({
-        name: 'styleAndLayout',
-        title: 'Style and Layout',
-        type: 'object',
-        options: {
-          collapsible: true,
-          collapsed: true,
-        },
-        fields: [
-          defineField({
-            name: 'layout',
-            title: 'Layout',
-            type: 'string',
-            options: {
-                list: [
-                    {title: 'Centered', value: 'centered'},
-                    {title: 'Left-aligned', value: 'left-aligned'},
-                    {title: 'Split', value: 'split'},
-                ],
-            },
-            initialValue: 'centered',
-          }),
-          defineField({
-            name: 'background',
-            title: 'Background', 
-            type: 'backgroundStyle',
-            validation: (Rule) => Rule.required(),
-          }),
-        ]
-      }),
-    defineField({
       name: 'cta',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'cta'}]}],
+      description: 'If selecting multiple, the first will be used as the primary CTA',
       validation: (Rule) => Rule.required().min(1).max(2),
     }),
     defineField({
