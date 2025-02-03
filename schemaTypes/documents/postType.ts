@@ -52,11 +52,11 @@ export const postType = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'category'}]}],
     }),
-    defineField({
-      name: 'tags',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}]}],
-    }),
+    // defineField({
+    //   name: 'tags',
+    //   type: 'array',
+    //   of: [{type: 'reference', to: [{type: 'tag'}]}],
+    // }),
   ],
   preview: {
     select: {

@@ -26,15 +26,23 @@ export const pageType = defineType({
       name: 'icon',
       type: 'image'
     }),
-    defineField({
-      name: 'tag',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}]
-    }),
+    // defineField({
+    //   name: 'tag',
+    //   type: 'array',
+    //   of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}]
+    // }),
     defineField({
       name: 'category',
       type: 'array', 
-      of: [{type: 'reference', to: [{type: 'category'}], options: {disableNew: true}}]
+      of: [{type: 'reference', to: [{type: 'category'}], 
+        options: {disableNew: true, 
+          filter: ({document}) => {
+            return {
+              filter: '_type == "category" && !(name match "DEP-*")'
+            }
+          }
+        }
+      }]
     }),
     defineField({
       name: 'block',
@@ -52,6 +60,7 @@ export const pageType = defineType({
         {type: 'statSection', options: {modal: true}},
         {type: 'logoSection', options: {modal: true}},
         {type: 'bentoSection', options: {modal: true}},
+        {type: 'textSection', options: {modal: true}},
       ],
       validation: (Rule) => Rule.required(),
     })
@@ -59,7 +68,7 @@ export const pageType = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'parent.title',
+      subtitle: 'metadata.slug.current',
     }
   }
 })

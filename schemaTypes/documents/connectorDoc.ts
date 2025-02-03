@@ -36,11 +36,11 @@ export const connectorType = defineType({
       type: 'boolean',
       initialValue: false,
     }),
-    defineField({
-      name: 'tags',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}],
-    }),
+    // defineField({
+    //   name: 'tags',
+    //   type: 'array',
+    //   of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}],
+    // }),
   ],
   preview: {
     select: {

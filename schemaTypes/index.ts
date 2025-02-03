@@ -25,6 +25,7 @@ import {pageType} from './documents/pageDoc'
 import {resourceType} from './documents/resourceDoc'
 import {tagType} from './documents/tagDoc'
 import {teamMemberType} from './documents/teamMemberDoc'
+import {textSectionType} from './blocks/textSection'
 
 
 // Object Types
@@ -38,6 +39,7 @@ import {metadataType} from './objects/metadataObj'
 import {portableTextType} from './objects/portableTextObj'
 import {productPricingType} from './objects/productPricingObj'
 import {videoEmbedType} from './objects/videoEmbedObj'
+import {tableObj} from './objects/tableObj'
 
 export const schemaTypes = [
   // Block types
@@ -66,6 +68,7 @@ export const schemaTypes = [
   resourceType,
   tagType,
   teamMemberType,
+  textSectionType,
 
   // Object Types
   backgroundStyle,
@@ -78,4 +81,5 @@ export const schemaTypes = [
   portableTextType,
   productPricingType,
   videoEmbedType,
+  tableObj,
 ]

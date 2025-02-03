@@ -2,7 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon} from '@sanity/icons'
+import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon, TagIcon, ChevronRightIcon, DoubleChevronRightIcon} from '@sanity/icons'
 import { iconPicker } from 'sanity-plugin-icon-picker';
 import sanityClient from './sanity.client'
 import { Page } from './sanity.types'
@@ -24,7 +24,70 @@ export default defineConfig({
             S.documentTypeListItem('company'),
             S.documentTypeListItem('connector').title('Connectors'),
             S.documentTypeListItem('customer'),
-            S.documentTypeListItem('page'),
+            // S.documentTypeListItem('page'),
+            S.listItem()
+              .title('Pages')
+              .icon(BookIcon)
+              .child(
+                S.list()
+                  .title('Pages')
+                  .items([
+                    S.listItem()
+                      .title('Parent Pages')
+                      .icon(ChevronRightIcon)
+                      .child(
+                        S.documentList()
+                          .title('Parent Pages')
+                          .schemaType('page')
+                          .filter('_type == "page" && !defined(parent)')
+                      ),
+                    S.listItem()
+                      .title('Product Pages')
+                      .icon(DoubleChevronRightIcon)
+                      .child(
+                        S.documentList()
+                          .title('Product Pages')
+                          .schemaType('page')
+                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "products"')
+                      ),
+                    S.listItem()
+                      .title('Solutions Pages')
+                      .icon(DoubleChevronRightIcon)
+                      .child(
+                        S.documentList()
+                          .title('Solutions Pages')
+                          .schemaType('page')
+                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "solutions"')
+                      ),
+                    S.listItem()
+                      .title('Industry Pages')
+                      .icon(DoubleChevronRightIcon)
+                      .child(
+                        S.documentList()
+                          .title('Industry Pages')
+                          .schemaType('page')
+                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "industry"')
+                    ),
+                    S.listItem()
+                      .title('Use Case Pages')
+                      .icon(DoubleChevronRightIcon)
+                      .child(
+                        S.documentList()
+                          .title('Use Case Pages')
+                          .schemaType('page')
+                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "use-case"')
+                      ),
+                    S.listItem()
+                      .title('Support Pages')
+                      .icon(DoubleChevronRightIcon)
+                      .child(
+                        S.documentList()
+                          .title('Support Pages')
+                          .schemaType('page')
+                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "support"')
+                      )
+                  ])
+              ),
             S.listItem()
               .title('Resources')
               .icon(AddCircleIcon)
@@ -160,9 +223,16 @@ export default defineConfig({
                 S.list()
                   .title('Helper Objects')
                   .items([
-                    S.documentTypeListItem('category'),
+                    S.listItem()
+                      .title('Categories')
+                      .icon(TagIcon)
+                      .child(
+                        S.documentList()
+                          .title('Categories')
+                          .schemaType('category')
+                          .filter('_type == "category" && !(name match "DEP-*")')
+                      ),
                     S.documentTypeListItem('cta'),
-                    S.documentTypeListItem('tag'),
                     S.documentTypeListItem('hubspotForm'),
                   ])
               ),

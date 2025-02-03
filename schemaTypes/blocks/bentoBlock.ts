@@ -35,7 +35,7 @@ export const bentoType = defineType({
                     {title: 'Evenly Spaced', value: 'Evenly Spaced'},
                 ],
             },
-            validation: (Rule) => Rule.required(),
+            initialValue: 'Large Horizontal',
           }),
           defineField({
             name: 'background',
@@ -82,8 +82,7 @@ export const bentoType = defineType({
         }
       }
       }],
-      description: "Add up to 4 bento blocks",
-      validation: (Rule) => Rule.required().length(4),
+      description: "Add up to 6 bento blocks",
     }),
   ],
   preview: {

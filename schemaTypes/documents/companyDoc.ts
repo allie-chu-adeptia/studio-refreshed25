@@ -44,17 +44,13 @@ export const companyType = defineType({
     defineField({
       name: 'termsOfService',
       title: 'Terms of Service',
-      description: 'Reference to the terms of service page',
-      type: 'reference',
-      to: [{type: 'page'}],
+      type: 'portableText',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'privacyPolicy',
       title: 'Privacy Policy',
-      description: 'Reference to the privacy policy page',
-      type: 'reference',
-      to: [{type: 'page'}],
+      type: 'portableText',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

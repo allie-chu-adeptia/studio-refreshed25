@@ -23,7 +23,7 @@ export const headerStyle = defineType({
         }),
         defineField({
             name: 'layout',
-            title: 'Layout',
+            title: 'Header Alignment',
             type: 'string',
             options: {
                 list: ['centered', 'left-aligned', 'right-aligned'],

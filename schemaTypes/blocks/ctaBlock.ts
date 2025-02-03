@@ -10,12 +10,6 @@ export const ctaSectionType = defineType({
   icon: ExpandIcon,
   fields: [
     defineField({
-        name: 'header',
-        title: 'Header',
-        type: 'headerStyle',
-        validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'cta',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'cta'}]}],
@@ -30,7 +24,7 @@ export const ctaSectionType = defineType({
   ],
   preview: {
     select: {
-      title: 'header.header',
+      title: 'cta.0.campaignTitle',
       subtitle: 'CTA Section Block',
       media: 'image',
     },

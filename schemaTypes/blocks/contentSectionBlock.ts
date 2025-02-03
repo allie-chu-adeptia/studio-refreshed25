@@ -79,13 +79,12 @@ export const contentSectionType = defineType({
           },
           {
             name: 'header',
-            title: 'Header',
+            title: 'Title',
             type: 'string',
-            validation: (Rule) => Rule.required()
           },
           {
             name: 'subheader',
-            title: 'Subheader',
+            title: 'Body',
             type: 'text',
           },
           {
@@ -93,7 +92,14 @@ export const contentSectionType = defineType({
             title: 'Button',
             type: 'button',
           }
-        ]
+        ],
+        preview: {
+          select: {
+            title: 'header',
+            subtitle: 'subheader',
+            media: 'icon',
+          }
+        }
       }],
       description: 'Between 2 and 6 sub points. If image is present and not centered, up to 3 sub points will be displayed',
       validation: (Rule) => Rule.min(2).max(6)

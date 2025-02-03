@@ -72,11 +72,11 @@ export const resourceType = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'category'}], options: {disableNew: true}}],
     }),
-    defineField({
-      name: 'tag',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}],
-    }),
+    // defineField({
+    //   name: 'tag',
+    //   type: 'array',
+    //   of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}],
+    // }),
     defineField({
       name: 'body',
       type: 'portableText',

@@ -22,6 +22,13 @@ export const headerType = defineType({
         validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'cta',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'cta'}]}],
+      description: 'If selecting multiple, the first will be used as the primary CTA',
+      validation: (Rule) => Rule.max(2),
+    }),
+    defineField({
       name: 'content',
       type: 'array',
       description: 'Up to three cards',

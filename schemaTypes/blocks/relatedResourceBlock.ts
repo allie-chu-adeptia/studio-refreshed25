@@ -9,18 +9,18 @@ export const relatedResourceType = defineType({
   type: 'object',
   icon: EqualIcon,
   fields: [
-    defineField({
-        name: 'header',
-        title: 'Header',
-        type: 'headerStyle',
-        validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'tag',
-      title: 'Tags',
-      type: 'array',
-      of: [{type: 'reference', to: [{type: 'tag'}]}],
-    }),
+    // defineField({
+    //     name: 'header',
+    //     title: 'Header',
+    //     type: 'headerStyle',
+    //     validation: (Rule) => Rule.required(),
+    // }),
+    // defineField({
+    //   name: 'tag',
+    //   title: 'Tags',
+    //   type: 'array',
+    //   of: [{type: 'reference', to: [{type: 'tag'}]}],
+    // }),
     defineField({
       name: 'type',
       title: 'Type',
@@ -44,7 +44,7 @@ export const relatedResourceType = defineType({
   ],
   preview: {
     select: {
-      title: 'header.header',
+      title: 'type',
       subtitle: 'Related Resource Block',
     },
   },

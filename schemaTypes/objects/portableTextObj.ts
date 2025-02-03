@@ -27,11 +27,30 @@ export const portableTextType = defineField({
                 ]
               }
             ]
+          },
+          {
+            name: 'link',
+            type: 'object',
+            title: 'Link',
+            fields: [
+              {
+                name: 'href',
+                type: 'url',
+                title: 'URL'
+              },
+              {
+                name: 'blank',
+                type: 'boolean',
+                title: 'Open in new tab',
+                initialValue: true
+              }
+            ]
           }
         ]
       }
     }, 
     {type: 'image'}, 
     {type: 'externalImage'},
+    {type: 'table'},
   ],
 })

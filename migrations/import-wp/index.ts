@@ -1,7 +1,7 @@
 import {createClient} from '@sanity/client'
 import pLimit from 'p-limit'
 import {createOrReplace, defineMigration} from 'sanity/migrate'
-import type {WP_REST_API_Post, WP_REST_API_Term, WP_REST_API_User} from 'wp-types'
+import type {WP_REST_API_Post, WP_REST_API_Term, WP_REST_API_User, WP_REST_API_Page} from 'wp-types'
 
 import {getDataTypes} from './lib/getDataTypes'
 import {sanityFetchImages} from './lib/sanityFetchImages'
@@ -9,6 +9,7 @@ import {transformToCat, transformtoConnector, transformToTag, transformToTeamMem
 import {wpDataTypeFetch} from './lib/wpDataTypeFetch'
 import {transformToResource} from './lib/transformtoResource'
 import {transformToPost} from './lib/transformToPost'
+import {transformToMetadata} from './lib/transformToMetadata'
 const limit = pLimit(5)
 import {checkpointManager} from './lib/checkpoint'
 
@@ -43,8 +44,9 @@ export default defineMigration({
               //   return doc
               // } else 
               if (wpType === 'pages') {
-                wpDoc = wpDoc as WP_REST_API_Post
-                // TODO
+                wpDoc = wpDoc as WP_REST_API_Page
+                const doc = await transformToMetadata(wpDoc, client)
+                return doc
               } else if (wpType === 'categories') {
                 wpDoc = wpDoc as WP_REST_API_Term
                 const doc = await transformToCat(wpDoc, client, existingImages)

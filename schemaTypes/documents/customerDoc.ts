@@ -61,11 +61,11 @@ export const customerType = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'connector'}]}],
     }),
-    defineField({
-        name: 'tag',
-        type: 'array',
-        of: [{type: 'reference', to: [{type: 'tag'}]}],
-    }),
+    // defineField({
+    //     name: 'tag',
+    //     type: 'array',
+    //     of: [{type: 'reference', to: [{type: 'tag'}]}],
+    // }),
     defineField({
         name: 'category',
         type: 'array',
