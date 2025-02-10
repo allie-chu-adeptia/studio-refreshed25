@@ -51,8 +51,23 @@ export async function transformToTag(
     return doc
 }
 
-export async function transformtoConnector(
-    wpDoc: WP_REST_API_Post,
+interface YoastHeadJSON {
+    title?: string;
+    description?: string;
+    primary_focus_keyword?: string;
+    canonical?: string;
+    robots?: {
+        index?: string;
+        follow?: string;
+    };
+}
+
+type WP_REST_API_Post_Extended = WP_REST_API_Post & {
+    yoast_head_json?: YoastHeadJSON;
+}
+
+export async function transformToConnector(
+    wpDoc: WP_REST_API_Post_Extended,
     client: SanityClient,
     existingImages: Record<string, string> = {},
 ): Promise<StagedConnector> {
@@ -62,11 +77,7 @@ export async function transformtoConnector(
     }
 
     doc.name = decode(wpDoc.title.rendered).trim()
-
-    if (wpDoc.slug) {
-        doc.slug = {_type: 'slug', current: wpDoc.slug}
-    }
-
+    
     doc.featured = false
 
     if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
@@ -87,6 +98,27 @@ export async function transformtoConnector(
                 }
             }
         }
+    }
+
+    try {
+        // Metadata
+        doc.metadata = {
+            _type: 'metadata',
+            seoTitle: decode(wpDoc.yoast_head_json?.title || wpDoc.title?.rendered || ''),
+            description: decode(wpDoc.yoast_head_json?.description || wpDoc.excerpt?.rendered || '').replace(/<[^>]*>/g, ''),
+            focusKeyprase: wpDoc.yoast_head_json?.primary_focus_keyword || '',
+            slug: {
+                _type: 'slug',
+                current: wpDoc.slug
+            },
+            advanced: {
+                canonicalUrl: '',
+                allowSearchResults: wpDoc.yoast_head_json?.robots?.index !== 'noindex',
+                followLinks: wpDoc.yoast_head_json?.robots?.follow !== 'nofollow'
+            }
+        }
+    } catch (error) {
+        console.error(`Error processing metadata for post ${wpDoc.id}: ${error}`)
     }
 
     return doc

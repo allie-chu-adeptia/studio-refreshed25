@@ -34,6 +34,26 @@ export const relatedResourceType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'resourceTypes',
+      title: 'Resource Types',
+      description: "If left blank, all resource types will be displayed",
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Datasheet', value: 'Datasheet'},
+          {title: 'White Paper', value: 'White Paper'}, 
+          {title: 'eBook', value: 'eBook'},
+          {title: 'Infographic', value: 'Infographic'},
+          {title: 'News', value: 'News'},
+          {title: 'Blog', value: 'Blog'},
+          {title: 'Video', value: 'Video'},
+          {title: 'Tutorial', value: 'Tutorial'}
+        ]
+      },
+      hidden: ({parent}) => parent?.type === 'selected',
+    }),
+    defineField({
       name: 'resource',
       title: 'Resources',
       type: 'array',
@@ -44,8 +64,8 @@ export const relatedResourceType = defineType({
   ],
   preview: {
     select: {
-      title: 'type',
-      subtitle: 'Related Resource Block',
+      title: 'title',
+      subtitle: 'type',
     },
   },
 })

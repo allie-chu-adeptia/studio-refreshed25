@@ -10,6 +10,10 @@ export const connectorType = defineType({
   icon: ProjectsIcon,
   fields: [
     defineField({
+      name: 'metadata',
+      type: 'metadata',
+    }),
+    defineField({
       name: 'name',
       type: 'string',
       validation: (Rule) => Rule.required(),
@@ -20,27 +24,34 @@ export const connectorType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-        name: 'slug',
-        title: 'Slug',
-        type: 'slug',
-        options: {
-          source: 'name',
-          slugify: input => input
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .slice(0, 200)
-        }
-    }),
-    defineField({
       name: 'featured',
       type: 'boolean',
       initialValue: false,
     }),
-    // defineField({
-    //   name: 'tags',
-    //   type: 'array',
-    //   of: [{type: 'reference', to: [{type: 'tag'}], options: {disableNew: true}}],
-    // }),
+    defineField({
+      name: 'subpage',
+      title: 'Has Subpage',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'categories',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'category'}], 
+        options: {disableNew: true, 
+          filter: ({document}) => {
+            return {
+              filter: '_type == "category" && !(name match "DEP-*")'
+            }
+          }
+        }
+      }]
+    }),
+    defineField({
+      name: 'body',
+      title: 'Additional Details',
+      type: 'portableText'
+    })
   ],
   preview: {
     select: {

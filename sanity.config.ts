@@ -234,6 +234,7 @@ export default defineConfig({
                       ),
                     S.documentTypeListItem('cta'),
                     S.documentTypeListItem('hubspotForm'),
+                    S.documentTypeListItem('testimonial'),
                   ])
               ),
           ])

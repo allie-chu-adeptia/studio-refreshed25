@@ -22,8 +22,8 @@ export const relatedConnectorType = defineType({
       of: [{type: 'reference', to: [{type: 'connector'}]}],
       validation: (Rule) => Rule.required().custom((value) => {
         if (!value) return true
-        if (![6, 8, 12].includes(value.length)) {
-          return 'Must select 6, 8 or 12 connectors'
+        if (![6, 9, 12].includes(value.length)) {
+          return 'Must select 6, 9 or 12 connectors'
         }
         return true
       }),

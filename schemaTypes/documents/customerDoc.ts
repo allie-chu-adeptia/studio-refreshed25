@@ -75,7 +75,7 @@ export const customerType = defineType({
       name: 'testimonial',
       type: 'array',
       of: [
-        {type: 'testimonial'}
+        {type: 'reference', to: [{type: 'testimonial'}]}
       ],
     }),
     defineField({

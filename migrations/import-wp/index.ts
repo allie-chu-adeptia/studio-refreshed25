@@ -5,7 +5,7 @@ import type {WP_REST_API_Post, WP_REST_API_Term, WP_REST_API_User, WP_REST_API_P
 
 import {getDataTypes} from './lib/getDataTypes'
 import {sanityFetchImages} from './lib/sanityFetchImages'
-import {transformToCat, transformtoConnector, transformToTag, transformToTeamMember} from './lib/transformtoBasic'
+import {transformToCat, transformToConnector, transformToTag, transformToTeamMember} from './lib/transformtoBasic'
 import {wpDataTypeFetch} from './lib/wpDataTypeFetch'
 import {transformToResource} from './lib/transformtoResource'
 import {transformToPost} from './lib/transformToPost'
@@ -76,7 +76,7 @@ export default defineMigration({
                 // TODO
               } else if (wpType === 'connector') {
                 wpDoc = wpDoc as WP_REST_API_Post
-                const doc = await transformtoConnector(wpDoc, client, existingImages)
+                const doc = await transformToConnector(wpDoc, client, existingImages)
                 return doc
               }
               

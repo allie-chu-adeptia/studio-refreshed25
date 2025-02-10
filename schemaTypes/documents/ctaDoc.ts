@@ -16,6 +16,11 @@ export const ctaType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'header',
+      title: 'Header',
+      type: 'headerStyle',
+    }),
+    defineField({
       name: 'buttonText', 
       title: 'Button Text',
       type: 'string',
