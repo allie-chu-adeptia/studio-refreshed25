@@ -28,6 +28,10 @@ export const customerType = defineType({
       type: 'image',
     }),
     defineField({
+      name: 'featuredImage',
+      type: 'image',
+    }),
+    defineField({
       name: 'hideIdentifiableInfo',
       title: 'Hide Identifiable Information',
       type: 'boolean',
@@ -53,7 +57,7 @@ export const customerType = defineType({
     }),
     defineField({
       name: 'description',
-      type: 'portableText',
+      type: 'text',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -81,6 +85,7 @@ export const customerType = defineType({
     defineField({
       name: 'hasCaseStudy',
       type: 'boolean',
+      initialValue: false,
     }),
     defineField({
       name: 'challenge',
@@ -102,7 +107,7 @@ export const customerType = defineType({
     select: {
       title: 'title',
       subtitle: 'industry',
-      media: 'logo',
+      media: 'featuredImage',
     },
   },
 })
