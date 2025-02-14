@@ -1,33 +1,16 @@
-// For creating testimonials, which are attributed to a customer
+import { AddUserIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
 
-import {UserIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
-
-export const testimonialType = defineType({
-  name: 'testimonial',
-  title: 'Testimonial',
-  type: 'document',
-  icon: UserIcon,
+export const testimonialSectionType = defineType({
+  name: 'testimonialSection',
+  title: 'Testimonial Section',
+  type: 'object',
+  icon: AddUserIcon,
   fields: [
     defineField({
-      name: 'name',
-      title: 'Name',
-      type: 'string',
-    }),
-    defineField({
-      name: 'title',
-      title: 'Title', 
-      type: 'string',
-    }),
-    defineField({
-      name: 'picture',
-      title: 'Picture',
-      type: 'image',
-    }),
-    defineField({
-      name: 'companyLogo',
-      title: 'Company Logo',
-      type: 'image',
+      name: 'testimonial',
+      type: 'reference',
+      to: [{type: 'testimonial'}],
     }),
     defineField({
       name: 'layout',
@@ -40,17 +23,12 @@ export const testimonialType = defineType({
         ],
       },
     }),
-    defineField({
-      name: 'quote',
-      title: 'Quote',
-      type: 'portableText',
-    }),
   ],
   preview: {
     select: {
-      title: 'name',
-      subtitle: 'Testimonial Block',
-      media: 'picture',
-    },
-  },
+      title: 'testimonial.name',
+      subtitle: 'Testimonial Section',
+      media: 'testimonial.image',
+    }
+  }
 })

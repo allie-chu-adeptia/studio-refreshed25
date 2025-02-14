@@ -48,7 +48,6 @@ export const pageType = defineType({
       name: 'block',
       type: 'array',
       of: [
-        {type: 'reference', to: [{type: 'testimonial'}], options: {modal: true}},
         {type: 'caseStudy', options: {modal: true}},
         {type: 'relatedResource', options: {modal: true}},
         {type: 'relatedConnector', options: {modal: true}},
@@ -61,6 +60,7 @@ export const pageType = defineType({
         {type: 'logoSection', options: {modal: true}},
         {type: 'bentoSection', options: {modal: true}},
         {type: 'textSection', options: {modal: true}},
+        {type: 'testimonialSection', options: {modal: true}},
       ],
       validation: (Rule) => Rule.required(),
     })

@@ -12,7 +12,7 @@ import {pricingType} from './blocks/pricingBlock'
 import {relatedConnectorType} from './blocks/relatedConnectorBlock'
 import {relatedResourceType} from './blocks/relatedResourceBlock'
 import {statsType} from './blocks/statsBlock'
-import {testimonialType} from './blocks/testimonialBlock'
+import {testimonialSectionType} from './blocks/testimonialBlock'
 
 // Document Types
 // import {careerType} from './documents/careerDoc'
@@ -26,6 +26,7 @@ import {resourceType} from './documents/resourceDoc'
 import {tagType} from './documents/tagDoc'
 import {teamMemberType} from './documents/teamMemberDoc'
 import {textSectionType} from './blocks/textSection'
+import {testimonialType} from './documents/testimonialDoc'
 
 
 // Object Types
@@ -54,8 +55,8 @@ export const schemaTypes = [
   relatedConnectorType,
   relatedResourceType,
   statsType,
-  testimonialType,
-
+  testimonialSectionType,
+  
   // Document Types
   // careerType,
   categoryType,
@@ -69,6 +70,7 @@ export const schemaTypes = [
   tagType,
   teamMemberType,
   textSectionType,
+  testimonialType,
 
   // Object Types
   backgroundStyle,
