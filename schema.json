@@ -5268,7 +5268,11 @@
               },
               {
                 "type": "string",
-                "value": "accent"
+                "value": "dark-accent"
+              },
+              {
+                "type": "string",
+                "value": "light-accent"
               }
             ]
           },
@@ -5329,6 +5333,13 @@
                 "value": "right-aligned"
               }
             ]
+          },
+          "optional": true
+        },
+        "anchorID": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": true
         }

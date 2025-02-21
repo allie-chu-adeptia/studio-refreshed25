@@ -30,5 +30,11 @@ export const headerStyle = defineType({
             },
             initialValue: 'centered',
         }),
+        defineField({
+            name: 'anchorID',
+            title: 'Anchor ID',
+            type: 'string',
+            description: 'This is the ID for the anchor tag on the header. It can be used to link to the header from another page.'
+        })
     ]
 })
