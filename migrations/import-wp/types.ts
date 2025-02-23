@@ -4,6 +4,7 @@ import type {
     WP_REST_API_Posts,
     WP_REST_API_Tags,
     WP_REST_API_Users,
+    WP_REST_API_Attachment
   } from 'wp-types'
   
   export type WordPressDataType = 
@@ -22,7 +23,8 @@ import type {
     | 'case-study'
     | 'connector'
     | 'news'
-  
+    // | 'media'
+
   export type WordPressDataTypeResponses = {
     categories: WP_REST_API_Categories
     posts: WP_REST_API_Posts
@@ -39,6 +41,7 @@ import type {
     'case-study': WP_REST_API_Posts
     connector: WP_REST_API_Posts
     news: WP_REST_API_Posts
+    // media: WP_REST_API_Attachment
   }
   
   export type SanitySchemaType = 'category' | 'post' | 'page' | 'tag' | 'resource' | 'connector' | 'teamMember' | 'customer'

@@ -38,12 +38,11 @@ export default defineMigration({
           // Create an array of concurrency-limited promises to stage documents
           const docs = wpData.map((wpDoc) =>
             limit(async () => {
-              // if (wpType === 'posts') {
-              //   wpDoc = wpDoc as WP_REST_API_Post
-              //   const doc = await transformToPost(wpDoc, client, existingImages)
-              //   return doc
-              // } else 
-              if (wpType === 'pages') {
+              if (wpType === 'posts') {
+                wpDoc = wpDoc as WP_REST_API_Post
+                const doc = await transformToPost(wpDoc, client, existingImages)
+                return doc
+              } else if (wpType === 'pages') {
                 wpDoc = wpDoc as WP_REST_API_Page
                 const doc = await transformToMetadata(wpDoc, client)
                 return doc
@@ -62,7 +61,7 @@ export default defineMigration({
               } else if (wpType === 'datasheets' 
                 || wpType === 'ebooks' 
                 || wpType === 'infographics'
-                || wpType === 'posts'
+                // || wpType === 'posts'
                 || wpType === 'news' 
                 || wpType === 'tutorials' 
                 || wpType === 'videos' 

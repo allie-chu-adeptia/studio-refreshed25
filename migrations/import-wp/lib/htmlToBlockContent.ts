@@ -5,7 +5,7 @@ import {JSDOM} from 'jsdom'
 import pLimit from 'p-limit'
 import type {FieldDefinition, SanityClient} from 'sanity'
 
-import type {Post} from '../../../sanity.types'
+import type {Resource} from '../../../sanity.types'
 import {schemaTypes} from '../../../schemaTypes'
 import {BASE_URL} from '../constants'
 import {sanityIdToImageReference} from './sanityIdToImageReference'
@@ -14,15 +14,15 @@ import {wpImageFetch} from './wpImageFetch'
 
 const defaultSchema = Schema.compile({types: schemaTypes})
 const blockContentSchema = defaultSchema
-  .get('post')
-  .fields.find((field: FieldDefinition) => field.name === 'content').type
+  .get('resource')
+  .fields.find((field: FieldDefinition) => field.name === 'body').type
 
 // https://github.com/sanity-io/sanity/blob/next/packages/%40sanity/block-tools/README.md
 export async function htmlToBlockContent(
   html: string,
   client: SanityClient,
   imageCache: Record<number, string>,
-): Promise<Post['content']> {
+): Promise<Resource['body']> {
   // Convert HTML to Sanity's Portable Text
   let blocks = htmlToBlocks(html, blockContentSchema, {
     parseHtml: (html) => new JSDOM(html).window.document,
@@ -59,7 +59,7 @@ export async function htmlToBlockContent(
       if (block._type !== 'externalImage' || !('url' in block)) {
         return block
       }
-
+      
       // The filename is usually stored as the "slug" in WordPress media documents
       // Filename may be appended with dimensions like "-1024x683", remove with regex
       const dimensions = /-\d+x\d+$/
@@ -71,9 +71,17 @@ export async function htmlToBlockContent(
         ?.replace(dimensions, '')
         .toLocaleLowerCase()
 
-      const imageId = await fetch(`${BASE_URL}/media?slug=${slug}`)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data) => (Array.isArray(data) && data.length ? data[0].id : null))
+      let imageId = null
+      try {
+        const response = await fetch(`${BASE_URL}/media?slug=${slug}`)
+        if (response.ok) {
+          const data = await response.json()
+          imageId = Array.isArray(data) && data.length ? data[0].id : null
+        }
+      } catch (error) {
+        console.warn(`Failed to fetch image ID for slug ${slug}:`, error)
+        return block
+      }
 
       if (typeof imageId !== 'number' || !imageId) {
         return block
@@ -83,7 +91,7 @@ export async function htmlToBlockContent(
         return {
           _key: block._key,
           ...sanityIdToImageReference(imageCache[imageId]),
-        } as Extract<Post['content'], {_type: 'image'}>
+        } as Extract<Resource['body'], {_type: 'image'}>
       }
 
       const imageMetadata = await wpImageFetch(imageId)
@@ -100,7 +108,7 @@ export async function htmlToBlockContent(
           return {
             _key: block._key,
             ...sanityIdToImageReference(imageCache[imageId]),
-          } as Extract<Post['content'], {_type: 'image'}>
+          } as Extract<Resource['body'], {_type: 'image'}>
         } else {
           return block
         }

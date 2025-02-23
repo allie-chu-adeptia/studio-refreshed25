@@ -2,7 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon, TagIcon, ChevronRightIcon, DoubleChevronRightIcon} from '@sanity/icons'
+import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon, TagIcon, ChevronRightIcon, DoubleChevronRightIcon, ImageIcon} from '@sanity/icons'
 import { iconPicker } from 'sanity-plugin-icon-picker';
 import sanityClient from './sanity.client'
 import { Page } from './sanity.types'
@@ -235,6 +235,7 @@ export default defineConfig({
                     S.documentTypeListItem('cta'),
                     S.documentTypeListItem('hubspotForm'),
                     S.documentTypeListItem('testimonial'),
+                    S.documentTypeListItem('sanity.imageAsset').icon(ImageIcon)
                   ])
               ),
           ])

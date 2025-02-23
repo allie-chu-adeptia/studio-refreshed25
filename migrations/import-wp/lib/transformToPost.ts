@@ -3,14 +3,14 @@ import {decode} from 'html-entities'
 import type {PortableTextBlock, SanityClient} from 'sanity'
 import type {WP_REST_API_Post} from 'wp-types'
 
-import type {Post} from '../../../sanity.types'
+import type {Resource} from '../../../sanity.types'
 import {htmlToBlockContent} from './htmlToBlockContent'
 import {sanityIdToImageReference} from './sanityIdToImageReference'
 import {sanityUploadFromUrl} from './sanityUploadFromUrl'
 import {wpImageFetch} from './wpImageFetch'
 
 // Remove these keys because they'll be created by Content Lake
-type StagedPost = Omit<Post, '_createdAt' | '_updatedAt' | '_rev'>
+type StagedResource = Omit<Resource, '_createdAt' | '_updatedAt' | '_rev'>
 
 interface YoastHeadJSON {
     title?: string;
@@ -31,11 +31,17 @@ export async function transformToPost(
     wpDoc: WP_REST_API_Post_Extended,
     client: SanityClient,
     existingImages: Record<string, string> = {},
-): Promise<StagedPost> {
+): Promise<StagedResource | null> {
     try {
-        const doc: StagedPost = {
-        _id: `post-${wpDoc.id}`,
-        _type: 'post',
+        if (!wpDoc || !wpDoc.id) {
+            console.error('Invalid WordPress document')
+            return null
+        }
+
+        const doc: StagedResource = {
+            _id: `resource-${wpDoc.id}`,
+            _type: 'resource',
+            type: 'Blog'
         }
 
         console.log(`Processing post ${wpDoc.id}...`)
@@ -59,20 +65,20 @@ export async function transformToPost(
         }
 
         if (Array.isArray(wpDoc.categories) && wpDoc.categories.length) {
-            doc.categories = wpDoc.categories.map((catId) => ({
+            doc.category = wpDoc.categories.map((catId) => ({
                 _key: uuid(),
                 _type: 'reference',
                 _ref: `category-${catId}`,
             }))
         }
 
-        if (Array.isArray(wpDoc.tags) && wpDoc.tags.length) {
-            doc.tags = wpDoc.tags.map((tagId) => ({
-                _key: uuid(),
-                _type: 'reference',
-                _ref: `tag-${tagId}`,
-            }))
-        }
+        // if (Array.isArray(wpDoc.tags) && wpDoc.tags.length) {
+        //     doc.tags = wpDoc.tags.map((tagId) => ({
+        //         _key: uuid(),
+        //         _type: 'reference',
+        //         _ref: `tag-${tagId}`,
+        //     }))
+        // }
 
         if (wpDoc.author) {
             doc.author = {
@@ -82,45 +88,53 @@ export async function transformToPost(
         }
 
         if (wpDoc.date) {
-            doc.date = wpDoc.date   
+            doc.publishDate = wpDoc.date   
         }
 
-        if (wpDoc.modified) {
-            doc.modified = wpDoc.modified
-        }
+        // if (wpDoc.modified) {
+        //     doc.modified = wpDoc.modified
+        // }
 
-        if (wpDoc.status) {
-            doc.status = wpDoc.status as StagedPost['status']
-        }
+        // if (wpDoc.status) {
+        //     doc.status = wpDoc.status as StagedPost['status']
+        // }
 
         doc.featured = false
 
         if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
-            // Image exists already in dataset
-            if (existingImages[wpDoc.featured_media]) {
-                doc.featuredMedia = sanityIdToImageReference(existingImages[wpDoc.featured_media])
-            }
-            } else {
-                // Retrieve image details from WordPress
-                const metadata = await wpImageFetch(wpDoc.featured_media as number)
-
-                if (metadata?.source?.url) {
-                // Upload to Sanity
-                const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
-
-                if (asset) {
-                    doc.featuredMedia = sanityIdToImageReference(asset._id)
-                    existingImages[wpDoc.featured_media as number] = asset._id
+            try {
+                // Image exists already in dataset
+                if (existingImages[wpDoc.featured_media]) {
+                    doc.featuredImage = sanityIdToImageReference(existingImages[wpDoc.featured_media])
+                } else {
+                    // Retrieve image details from WordPress
+                    const metadata = await wpImageFetch(wpDoc.featured_media)
+                    if (metadata?.source?.url) {
+                        // Upload to Sanity
+                        const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
+                        if (asset) {
+                            doc.featuredImage = sanityIdToImageReference(asset._id)
+                            existingImages[wpDoc.featured_media] = asset._id
+                        }
+                    }
                 }
+            } catch (error) {
+                console.error(`Error processing featured image for post ${wpDoc.id}:`, error)
+                // Continue without featured image rather than failing the whole transform
             }
         }
 
         if (wpDoc.content) {
-            doc.content = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
-            doc.excerpt = doc.content ? [doc.content[0]] : []
+            doc.body = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
+            doc.excerpt = wpDoc.excerpt?.rendered 
+                ? decode(wpDoc.excerpt.rendered)
+                    .replace(/<\/?p>/g, '')
+                    .replace(/&#8217;/g, "'")
+                    .trim()
+                : ''
         }
 
-        if (!doc.content) {
+        if (!doc.body) {
             console.warn(`Post ${wpDoc.id} has no content`)
         }
 
@@ -128,6 +142,6 @@ export async function transformToPost(
     } catch (error) {
         console.error(`Error transforming post ${wpDoc.id}:`, error)
         console.error('WP document:', JSON.stringify(wpDoc, null, 2))
-        throw error
+        return null
     }
 }
