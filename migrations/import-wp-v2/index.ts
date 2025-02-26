@@ -1,5 +1,5 @@
 import type { SanityDocumentLike } from 'sanity'
-import { createOrReplace, defineMigration } from 'sanity/migrate'
+import { createOrReplace, defineMigration, patch } from 'sanity/migrate'
 import pLimit from 'p-limit'
 import { sanityFetchImages } from './lib/sanityFetchImages'
 import { createClient } from '@sanity/client'
@@ -22,35 +22,42 @@ export default defineMigration({
 
 
     const wpType = 'posts'
-    let page = 1
-    let hasMore = true
+    let page = 11
+    // let page = 1
+    // let hasMore = true
 
-    while (hasMore) {
+    // while (hasMore) {
       try {
         const wpData = await wpDataTypeFetch(wpType, page)
+        // console.log(wpData)
 
-        if (Array.isArray(wpData) && wpData.length) {
-          const docs = wpData.map((wpDoc) =>
-            limit(async () => {
-              wpDoc = wpDoc as WP_REST_API_Post
-              const doc = await transformToBlog(wpDoc, client, existingImages)
-              return doc
-            })
-          )
-          const resolvedDocs = await Promise.all(docs)
-          const validDocs = resolvedDocs.filter(Boolean)
+      if (Array.isArray(wpData) && wpData.length) {
+        const docs = wpData.map((wpDoc) =>
+          limit(async () => {
+            wpDoc = wpDoc as WP_REST_API_Post
+            const doc = await transformToBlog(wpDoc, client, existingImages)
+            // console.log('doc', doc)
+            return doc
+          })
+        )
+        const resolvedDocs = await Promise.all(docs)
+        const validDocs = resolvedDocs.filter(Boolean)
+
+        if (validDocs.length > 0) {
           yield validDocs.map((doc) => createOrReplace(doc))
-        
-          page++
-
-        } else {
-          hasMore = false
         }
-      } catch (error) {
+
+        page++
+
+      }
+      // else {
+      //   hasMore = false
+      // }
+    } catch (error) {
         console.error(`Error fetching data for page ${page}:`, error)
         // Stop the loop in case of an error
-        hasMore = false
+        // hasMore = false
       }
-    }
+    // }
   },
 })

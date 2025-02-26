@@ -52,6 +52,18 @@ export const contentSectionType = defineType({
           },
           initialValue: 'center',
         }),
+        // defineField({
+        //   name: 'orientation',
+        //   title: 'Orientation',
+        //   type: 'string',
+        //   options: {
+        //     list: [
+        //       {title: 'Column', value: 'column'},
+        //       {title: 'Row', value: 'row'},
+        //     ],
+        //   },
+        //   initialValue: 'column',
+        // }),
         defineField({
           name: 'background',
           title: 'Background', 
@@ -102,7 +114,7 @@ export const contentSectionType = defineType({
         }
       }],
       description: 'Between 2 and 6 sub points. If image is present and not centered, up to 3 sub points will be displayed',
-      validation: (Rule) => Rule.min(2).max(6)
+      validation: (Rule) => Rule.min(2)
     }),
   ],
   preview: {

@@ -9,5 +9,7 @@ export async function wpDataTypeFetch<T extends WordPressDataType>(
   wpApiUrl.searchParams.set('page', page.toString())
   wpApiUrl.searchParams.set('per_page', PER_PAGE.toString())
 
+  console.log('Fetching data from:', wpApiUrl.toString())
+
   return fetch(wpApiUrl).then((res) => (res.ok ? res.json() : null))
 }

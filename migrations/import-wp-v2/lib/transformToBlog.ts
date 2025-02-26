@@ -74,53 +74,63 @@ export async function transformToBlog(
 
     doc.status = 'Published'
 
-    // if (wpDoc.excerpt?.rendered) {
-    //     doc.excerpt = wpDoc.excerpt?.rendered
-    //         ? decode(wpDoc.excerpt.rendered)
-    //             .replace(/<\/?p>/g, '')
-    //             .replace(/&#8217;/g, "'")
-    //             .trim()
-    //         : ''
-    // }
+    if (wpDoc.excerpt?.rendered) {
+        doc.excerpt = decode(wpDoc.excerpt.rendered)
+            .replace(/<\/?p>/g, '')
+            .replace(/&#8217;/g, "'")
+            .replace(/\n/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+    }
 
     if (wpDoc.content?.rendered) {
         doc.body = await htmlToBlockContent(wpDoc.content.rendered, client, existingImages)
     }
 
-    // if (wpDoc.author) {
-    //     try {
-    //         doc.author = {
-    //             _type: 'reference',
-    //             _ref: `teamMember-${wpDoc.author}`,
-    //         }
-    //     } catch (error) {
-    //         console.warn(`Error processing author for post ${wpDoc.id}: ${error}`)
-    //         doc.author = {
-    //             _type: 'reference',
-    //             _ref: `teamMember-32`,
-    //         }
-    //     }
-    // }
+    if (wpDoc.author) {
+        if (wpDoc.author == 44) {
+            doc.author = {
+                _type: 'reference',
+                _ref: '29712fe2-1d04-47c9-a6f6-e4ce8b6e02a1'
+            }
+        } else if (wpDoc.author == 35 || wpDoc.author == 36 || wpDoc.author == 22) {
+            doc.author = {
+                _type: 'reference',
+                _ref: 'teamMember-32'
+            }
+        } else {
+            doc.author = {
+                _type: 'reference',
+                _ref: `teamMember-${wpDoc.author}`,
+            }
+        }
+    } else {
+        doc.author = {
+            _type: 'reference',
+            _ref: `teamMember-${wpDoc.author}`,
+        }
+    }
 
-    // if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
-    //     // Image exists already in dataset
-    //     if (existingImages[wpDoc.featured_media]) {
-    //       doc.featuredImage = sanityIdToImageReference(existingImages[wpDoc.featured_media])
-    //     } else {
-    //       // Retrieve image details from WordPress
-    //       const metadata = await wpImageFetch(wpDoc.featured_media)
+    if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
+        // Image exists already in dataset
+        if (existingImages[wpDoc.featured_media]) {
+            doc.featuredImage = sanityIdToImageReference(existingImages[wpDoc.featured_media])
+        } else {
+            // Retrieve image details from WordPress
+            const metadata = await wpImageFetch(wpDoc.featured_media)
 
-    //       if (metadata?.source?.url) {
-    //         // Upload to Sanity
-    //         const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
+            if (metadata?.source?.url) {
+                console.log('Metadata URL found')
+                // Upload to Sanity
+                const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
 
-    //         if (asset) {
-    //           doc.featuredImage = sanityIdToImageReference(asset._id)
-    //           existingImages[wpDoc.featured_media] = asset._id
-    //         }
-    //       }
-    //     }
-    //   }
+                if (asset) {
+                    doc.featuredImage = sanityIdToImageReference(asset._id)
+                    existingImages[wpDoc.featured_media] = asset._id
+                }
+            }
+        }
+    }
 
 
     return doc

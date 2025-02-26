@@ -23,6 +23,7 @@ export async function htmlToBlockContent(
   client: SanityClient,
   imageCache: Record<number, string>,
 ): Promise<Resource['body']> {
+
   // Convert HTML to Sanity's Portable Text
   let blocks = htmlToBlocks(html, blockContentSchema, {
     parseHtml: (html) => new JSDOM(html).window.document,
@@ -71,6 +72,7 @@ export async function htmlToBlockContent(
         ?.replace(dimensions, '')
         .toLocaleLowerCase()
 
+
       let imageId = null
       try {
         const response = await fetch(`${BASE_URL}/media?slug=${slug}`)
@@ -84,6 +86,7 @@ export async function htmlToBlockContent(
       }
 
       if (typeof imageId !== 'number' || !imageId) {
+        console.warn('No valid image ID found for slug:', slug)
         return block
       }
 
@@ -128,7 +131,10 @@ export async function htmlToBlockContent(
       return true
     }
 
-    return block.children.map((c) => (c.text as string).trim()).join('').length > 0
+    const hasContent = block.children.map((c) => (c.text as string).trim()).join('').length > 0
+    if (!hasContent) {
+    }
+    return hasContent
   })
 
   blocks = blocks.map((block) => (block._key ? block : {...block, _key: uuid()}))

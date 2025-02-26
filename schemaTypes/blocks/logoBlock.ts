@@ -14,9 +14,6 @@ export const logoType = defineType({
       type: 'array',
       of: [{
         type: 'image',
-        options: {
-          accept: '.svg'
-        }
       }],
       validation: (Rule) => Rule.required().length(5),
     }),

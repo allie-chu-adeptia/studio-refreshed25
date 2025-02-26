@@ -25,7 +25,16 @@ export const buttonType = defineType({
       name: 'link',
       title: 'Link', 
       type: 'reference',
-      to: [{ type: 'page' }, { type: 'resource' }],
+      to: [
+        { type: 'page' }, 
+        { type: 'resource' }, 
+        { 
+          type: 'customer',
+          options: {
+            filter: 'hasCaseStudy == true'
+          }
+        }
+      ],
       description: 'Link to an internal page or resource',
       options: {
         disableNew: true
