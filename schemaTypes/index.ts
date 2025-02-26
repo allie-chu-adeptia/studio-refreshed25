@@ -41,6 +41,7 @@ import {portableTextType} from './objects/portableTextObj'
 import {productPricingType} from './objects/productPricingObj'
 import {videoEmbedType} from './objects/videoEmbedObj'
 import {tableObj} from './objects/tableObj'
+import {redirectType} from './documents/redirectDoc'
 
 export const schemaTypes = [
   // Block types
@@ -71,6 +72,7 @@ export const schemaTypes = [
   teamMemberType,
   textSectionType,
   testimonialType,
+  redirectType,
 
   // Object Types
   backgroundStyle,

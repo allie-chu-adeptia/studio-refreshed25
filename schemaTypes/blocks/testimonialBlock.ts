@@ -27,7 +27,7 @@ export const testimonialSectionType = defineType({
   preview: {
     select: {
       title: 'testimonial.name',
-      subtitle: 'Testimonial Section',
+      subtitle: 'TestimonialSection',
       media: 'testimonial.image',
     }
   }

@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "@portabletext/block-tools": "^1.1.0",
+    "@sanity/client": "^6.28.1",
     "@sanity/icons": "^3.5.7",
     "@sanity/vision": "^3.68.3",
     "react": "^18.2.0",

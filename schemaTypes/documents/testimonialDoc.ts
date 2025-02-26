@@ -38,7 +38,7 @@ export const testimonialType = defineType({
   preview: {
     select: {
       title: 'name',
-      subtitle: 'Testimonial Block',
+      subtitle: 'TestimonialBlock',
       media: 'picture',
     },
   },

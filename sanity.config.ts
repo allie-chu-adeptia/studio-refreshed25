@@ -1,9 +1,12 @@
+// 'use client'
+
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon, TagIcon, ChevronRightIcon, DoubleChevronRightIcon, ImageIcon} from '@sanity/icons'
+import {BookIcon, AddCircleIcon, BasketIcon, CaseIcon, CheckmarkCircleIcon, UsersIcon, CogIcon, BarChartIcon, DocumentPdfIcon, TrendUpwardIcon, AddDocumentIcon, DocumentVideoIcon, UserIcon, TagIcon, ChevronRightIcon, DoubleChevronRightIcon, ImageIcon, LinkIcon} from '@sanity/icons'
 import { iconPicker } from 'sanity-plugin-icon-picker';
+import { presentationTool } from 'sanity/presentation'
 import sanityClient from './sanity.client'
 import { Page } from './sanity.types'
 
@@ -39,6 +42,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Parent Pages')
                           .schemaType('page')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "page" && !defined(parent)')
                       ),
                     S.listItem()
@@ -48,6 +52,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Product Pages')
                           .schemaType('page')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "products"')
                       ),
                     S.listItem()
@@ -57,6 +62,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Solutions Pages')
                           .schemaType('page')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "solutions"')
                       ),
                     S.listItem()
@@ -66,6 +72,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Industry Pages')
                           .schemaType('page')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "industry"')
                     ),
                     S.listItem()
@@ -75,6 +82,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Use Case Pages')
                           .schemaType('page')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "use-case"')
                       ),
                     S.listItem()
@@ -84,6 +92,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Support Pages')
                           .schemaType('page')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "support"')
                       )
                   ])
@@ -102,6 +111,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Datasheets')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "Datasheet"')
                           .menuItems([
                             S.orderingMenuItem({
@@ -123,8 +133,20 @@ export default defineConfig({
                         S.documentList()
                           .title('White Papers')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "White Paper"')
-                          .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                          .menuItems([
+                            S.orderingMenuItem({
+                              name: 'titleAsc',
+                              title: 'Title A-Z',
+                              by: [{field: 'title', direction: 'asc'}]
+                            }),
+                            S.orderingMenuItem({
+                              name: 'publishDateAsc',
+                              title: 'Publish Date ascending',
+                              by: [{field: 'publishDate', direction: 'asc'}]
+                            })
+                          ])
                       ),
                     S.listItem()
                       .title('eBooks')
@@ -133,8 +155,20 @@ export default defineConfig({
                         S.documentList()
                           .title('eBooks')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "eBook"')
-                          .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                          .menuItems([
+                            S.orderingMenuItem({
+                              name: 'titleAsc',
+                              title: 'Title A-Z',
+                              by: [{field: 'title', direction: 'asc'}]
+                            }),
+                            S.orderingMenuItem({
+                              name: 'publishDateAsc',
+                              title: 'Publish Date ascending',
+                              by: [{field: 'publishDate', direction: 'asc'}]
+                            })
+                          ])
                       ),
                     S.listItem()
                     .title('Infographics')
@@ -143,8 +177,20 @@ export default defineConfig({
                       S.documentList()
                         .title('Infographics')
                         .schemaType('resource')
+                        .apiVersion('v2025-02-19')
                         .filter('_type == "resource" && type == "Infographic"')
-                        .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                        .menuItems([
+                          S.orderingMenuItem({
+                            name: 'titleAsc',
+                            title: 'Title A-Z',
+                            by: [{field: 'title', direction: 'asc'}]
+                          }),
+                          S.orderingMenuItem({
+                            name: 'publishDateAsc',
+                            title: 'Publish Date ascending',
+                            by: [{field: 'publishDate', direction: 'asc'}]
+                          })
+                        ])
                     ),
                     S.listItem()
                       .title('News')
@@ -153,8 +199,20 @@ export default defineConfig({
                         S.documentList()
                           .title('News')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "News"')
-                          .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                          .menuItems([
+                            S.orderingMenuItem({
+                              name: 'titleAsc',
+                              title: 'Title A-Z',
+                              by: [{field: 'title', direction: 'asc'}]
+                            }),
+                            S.orderingMenuItem({
+                              name: 'publishDateAsc',
+                              title: 'Publish Date ascending',
+                              by: [{field: 'publishDate', direction: 'asc'}]
+                            })
+                          ])
                       ),
                     S.listItem()
                       .title('Blog Posts')
@@ -163,8 +221,20 @@ export default defineConfig({
                         S.documentList()
                           .title('Blog Posts')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "Blog"')
-                          .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                          .menuItems([
+                            S.orderingMenuItem({
+                              name: 'titleAsc',
+                              title: 'Title A-Z',
+                              by: [{field: 'title', direction: 'asc'}]
+                            }),
+                            S.orderingMenuItem({
+                              name: 'publishDateAsc',
+                              title: 'Publish Date ascending',
+                              by: [{field: 'publishDate', direction: 'asc'}]
+                            })
+                          ])
                       ),
                     S.listItem()
                       .title('Videos')
@@ -173,8 +243,20 @@ export default defineConfig({
                         S.documentList()
                           .title('Videos')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "Video"')
-                          .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                          .menuItems([
+                            S.orderingMenuItem({
+                              name: 'titleAsc',
+                              title: 'Title A-Z',
+                              by: [{field: 'title', direction: 'asc'}]
+                            }),
+                            S.orderingMenuItem({
+                              name: 'publishDateAsc',
+                              title: 'Publish Date ascending',
+                              by: [{field: 'publishDate', direction: 'asc'}]
+                            })
+                          ])
                       ),
                     S.listItem()
                       .title('Tutorials')
@@ -183,8 +265,20 @@ export default defineConfig({
                         S.documentList()
                           .title('Tutorials')
                           .schemaType('resource')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "resource" && type == "Tutorial"')
-                          .defaultOrdering([{field: 'publishDate', direction: 'asc'}])
+                          .menuItems([
+                            S.orderingMenuItem({
+                              name: 'titleAsc',
+                              title: 'Title A-Z',
+                              by: [{field: 'title', direction: 'asc'}]
+                            }),
+                            S.orderingMenuItem({
+                              name: 'publishDateAsc',
+                              title: 'Publish Date ascending',
+                              by: [{field: 'publishDate', direction: 'asc'}]
+                            })
+                          ])
                       )
                   ])
               ),
@@ -202,6 +296,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Management')
                           .schemaType('teamMember')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "teamMember" && displayInManagement == true')
                       ),
                     S.listItem()
@@ -211,6 +306,7 @@ export default defineConfig({
                         S.documentList()
                           .title('Authors')
                           .schemaType('teamMember')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "teamMember" && displayInManagement != true')
                       )
                   ])
@@ -230,16 +326,25 @@ export default defineConfig({
                         S.documentList()
                           .title('Categories')
                           .schemaType('category')
+                          .apiVersion('v2025-02-19')
                           .filter('_type == "category" && !(name match "DEP-*")')
                       ),
                     S.documentTypeListItem('cta'),
                     S.documentTypeListItem('hubspotForm'),
                     S.documentTypeListItem('testimonial'),
-                    S.documentTypeListItem('sanity.imageAsset').icon(ImageIcon)
+                    S.documentTypeListItem('sanity.imageAsset').icon(ImageIcon),
+                    S.documentTypeListItem('redirect').icon(LinkIcon)
                   ])
               ),
           ])
     }),
+    // presentationTool({
+    //   previewUrl: {
+    //     previewMode: {
+    //       enable: '/api/draft-mode/enable',
+    //     },
+    //   },
+    // }),
     visionTool(),
     iconPicker(),
   ],
