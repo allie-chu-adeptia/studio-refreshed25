@@ -23,11 +23,10 @@ export const hubspotFormType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'sfdcCampaignId',
-      title: 'SFDC Campaign ID',
+      name: 'thankYouMessage',
+      title: 'Thank You Message',
       type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
+    })
   ],
   preview: {
     select: {

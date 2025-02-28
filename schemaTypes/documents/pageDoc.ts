@@ -61,6 +61,7 @@ export const pageType = defineType({
         {type: 'bentoSection', options: {modal: true}},
         {type: 'textSection', options: {modal: true}},
         {type: 'testimonialSection', options: {modal: true}},
+        {type: 'contentSectionCarousel', options: {modal: true}},
       ],
       validation: (Rule) => Rule.required(),
     })

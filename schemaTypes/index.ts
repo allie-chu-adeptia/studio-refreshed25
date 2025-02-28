@@ -13,6 +13,7 @@ import {relatedConnectorType} from './blocks/relatedConnectorBlock'
 import {relatedResourceType} from './blocks/relatedResourceBlock'
 import {statsType} from './blocks/statsBlock'
 import {testimonialSectionType} from './blocks/testimonialBlock'
+import {contentSectionCarouselType} from './blocks/contentSectionCarouselBlock'
 
 // Document Types
 // import {careerType} from './documents/careerDoc'
@@ -57,6 +58,7 @@ export const schemaTypes = [
   relatedResourceType,
   statsType,
   testimonialSectionType,
+  contentSectionCarouselType,
   
   // Document Types
   // careerType,
