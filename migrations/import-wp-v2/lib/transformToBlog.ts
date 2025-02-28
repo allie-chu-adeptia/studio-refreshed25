@@ -2,12 +2,11 @@ import { decode } from 'html-entities'
 import type { WP_REST_API_Post } from 'wp-types'
 import { uuid } from '@sanity/uuid'
 import type { Resource } from '../../../sanity.types'
-import { htmlToBlockContent } from '../../../migrations/import-wp/lib/htmlToBlockContent'
+import { htmlToBlockContent } from '../../../migrations/import-wp-v2/lib/htmlToBlockContent'
 import type { SanityClient } from 'sanity'
 import { sanityIdToImageReference } from './sanityIdToImageReference'
 import { sanityUploadFromUrl } from './sanityUploadFromUrl'
 import { wpImageFetch } from './wpImageFetch'
-
 
 
 // Remove these keys because they'll be created by Content Lake

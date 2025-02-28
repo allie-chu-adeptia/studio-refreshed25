@@ -18,12 +18,12 @@ export const redirectType = defineType({
     fields: [
         defineField({
             name: 'source',
-            type: 'slug',
+            type: 'string',
             description: 'The slug cannot be blank and the path must start with /',
         }),
         defineField({
             name: 'destination',
-            type: 'slug',
+            type: 'string',
             description: 'The slug cannot be blank and the path must start with /',
         }),
         defineField({
