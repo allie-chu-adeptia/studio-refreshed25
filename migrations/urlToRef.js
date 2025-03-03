@@ -80,8 +80,41 @@ const processPortableText = (block, slugMap) => {
                         href: markDef.href,
                         blank: true
                     }
+                } else {
+                    // Manual mapping for specific slugs that need custom handling
+                    const manualSlugMapping = {
+                        'adeptia-connect-application-connectors': 'connectors',
+                        'compare-adeptia-product-tiers': 'pricing',
+                        'How-Adeptia-Connect-Works': '/',
+                        'request-demo': 'adeptia-connect-demo',
+                        'self-service-integration-empower-business-users': 'resources'
+                    }
+
+                    if (manualSlugMapping[slug]) {
+                        const mappedSlug = manualSlugMapping[slug]
+                        if (slugMap[mappedSlug]) {
+                            console.log(`Manual mapping: ${slug} -> ${mappedSlug} (${slugMap[mappedSlug]})`)
+                            return {
+                                _key: markDef._key,
+                                _type: 'internalLink',
+                                reference: {
+                                    _type: 'reference',
+                                    _ref: slugMap[mappedSlug]
+                                }
+                            }
+                        }
+                    } else {
+                        console.log(`No mapping found for slug: ${slug}, Mapping to home page`)
+                        return {
+                            _key: markDef._key,
+                            _type: 'internalLink',
+                            reference: {
+                                _type: 'reference',
+                                _ref: slugMap['/']
+                            }
+                        }
+                    }
                 }
-                console.log(`${slug}, ${markDef.href}`)
                 // If slug exists but no matching page, keep original link
                 return markDef
             }
@@ -94,7 +127,7 @@ const processPortableText = (block, slugMap) => {
 // Fetch all resources with body content
 const fetchDocuments = async () => {
     // console.log('Fetching documents to process...')
-    const docs = await client.fetch(`*[_type == "resource" && type == "Blog" && defined(body)] | order(publishDate desc)[601...900] {
+    const docs = await client.fetch(`*[_type == "resource" && type == "Blog" && defined(body)] | order(publishDate desc)[701...900] {
     _id,
     _rev,
     body
