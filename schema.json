@@ -2726,6 +2726,19 @@
           },
           "optional": true
         },
+        "animation": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "firstMileDataTypes"
+              }
+            ]
+          },
+          "optional": true
+        },
         "button": {
           "type": "objectAttribute",
           "value": {
@@ -3487,6 +3500,21 @@
                 "rest": {
                   "type": "inline",
                   "name": "contentSectionCarousel"
+                }
+              },
+              {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "rest": {
+                  "type": "inline",
+                  "name": "careerSection"
                 }
               }
             ]
@@ -5420,6 +5448,37 @@
                 "value": "light-accent"
               }
             ]
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "careerSection",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "careerSection"
+          }
+        },
+        "header": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "headerStyle"
+          },
+          "optional": true
+        },
+        "careers": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
           },
           "optional": true
         }

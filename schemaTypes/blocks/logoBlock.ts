@@ -15,7 +15,6 @@ export const logoType = defineType({
       of: [{
         type: 'image',
       }],
-      validation: (Rule) => Rule.required().length(5),
     }),
   ],
   preview: {

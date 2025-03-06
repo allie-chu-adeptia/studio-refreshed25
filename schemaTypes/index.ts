@@ -14,6 +14,7 @@ import {relatedResourceType} from './blocks/relatedResourceBlock'
 import {statsType} from './blocks/statsBlock'
 import {testimonialSectionType} from './blocks/testimonialBlock'
 import {contentSectionCarouselType} from './blocks/contentSectionCarouselBlock'
+import {careerType} from './blocks/careersBlock'
 
 // Document Types
 // import {careerType} from './documents/careerDoc'
@@ -46,6 +47,7 @@ import {redirectType} from './documents/redirectDoc'
 
 export const schemaTypes = [
   // Block types
+  careerType,
   bentoType,
   caseStudyType,
   contentSectionType,

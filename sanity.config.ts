@@ -25,76 +25,83 @@ export default defineConfig({
             S.documentTypeListItem('company'),
             S.documentTypeListItem('connector').title('Connectors'),
             S.documentTypeListItem('customer'),
-            // S.documentTypeListItem('page'),
-            S.listItem()
-              .title('Pages')
-              .icon(BookIcon)
-              .child(
-                S.list()
-                  .title('Pages')
-                  .items([
-                    S.listItem()
-                      .title('Parent Pages')
-                      .icon(ChevronRightIcon)
-                      .child(
-                        S.documentList()
-                          .title('Parent Pages')
-                          .schemaType('page')
-                          .apiVersion('v2025-02-19')
-                          .filter('_type == "page" && !defined(parent)')
-                      ),
-                    S.listItem()
-                      .title('Product Pages')
-                      .icon(DoubleChevronRightIcon)
-                      .child(
-                        S.documentList()
-                          .title('Product Pages')
-                          .schemaType('page')
-                          .apiVersion('v2025-02-19')
-                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "products"')
-                      ),
-                    S.listItem()
-                      .title('Solutions Pages')
-                      .icon(DoubleChevronRightIcon)
-                      .child(
-                        S.documentList()
-                          .title('Solutions Pages')
-                          .schemaType('page')
-                          .apiVersion('v2025-02-19')
-                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "solutions"')
-                      ),
-                    S.listItem()
-                      .title('Industry Pages')
-                      .icon(DoubleChevronRightIcon)
-                      .child(
-                        S.documentList()
-                          .title('Industry Pages')
-                          .schemaType('page')
-                          .apiVersion('v2025-02-19')
-                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "industry"')
-                    ),
-                    S.listItem()
-                      .title('Use Case Pages')
-                      .icon(DoubleChevronRightIcon)
-                      .child(
-                        S.documentList()
-                          .title('Use Case Pages')
-                          .schemaType('page')
-                          .apiVersion('v2025-02-19')
-                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "use-case"')
-                      ),
-                    S.listItem()
-                      .title('Support Pages')
-                      .icon(DoubleChevronRightIcon)
-                      .child(
-                        S.documentList()
-                          .title('Support Pages')
-                          .schemaType('page')
-                          .apiVersion('v2025-02-19')
-                          .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "support"')
-                      )
-                  ])
-              ),
+            S.documentTypeListItem('page'),
+            // S.listItem()
+            //   .title('Pages')
+            //   .icon(BookIcon)
+            //   .child(
+            //     S.list()
+            //       .title('Pages')
+            //       .menuItems([
+            //         S.orderingMenuItem({
+            //           name: 'publishDateAsc',
+            //           title: 'Publish Date ascending',
+            //           by: [{field: 'publishDate', direction: 'asc'}]
+            //         })
+            //       ])
+            //       // .items([
+            //       //   S.listItem()
+            //       //     .title('Parent Pages')
+            //       //     .icon(ChevronRightIcon)
+            //       //     .child(
+            //       //       S.documentList()
+            //       //         .title('Parent Pages')
+            //       //         .schemaType('page')
+            //       //         .apiVersion('v2025-02-19')
+            //       //         .filter('_type == "page" && !defined(parent)')
+            //       //     ),
+            //       //   S.listItem()
+            //       //     .title('Product Pages')
+            //       //     .icon(DoubleChevronRightIcon)
+            //       //     .child(
+            //       //       S.documentList()
+            //       //         .title('Product Pages')
+            //       //         .schemaType('page')
+            //       //         .apiVersion('v2025-02-19')
+            //       //         .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "products"')
+            //       //     ),
+            //       //   S.listItem()
+            //       //     .title('Solutions Pages')
+            //       //     .icon(DoubleChevronRightIcon)
+            //       //     .child(
+            //       //       S.documentList()
+            //       //         .title('Solutions Pages')
+            //       //         .schemaType('page')
+            //       //         .apiVersion('v2025-02-19')
+            //       //         .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "solutions"')
+            //       //     ),
+            //       //   S.listItem()
+            //       //     .title('Industry Pages')
+            //       //     .icon(DoubleChevronRightIcon)
+            //       //     .child(
+            //       //       S.documentList()
+            //       //         .title('Industry Pages')
+            //       //         .schemaType('page')
+            //       //         .apiVersion('v2025-02-19')
+            //       //         .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "industry"')
+            //       //   ),
+            //       //   S.listItem()
+            //       //     .title('Use Case Pages')
+            //       //     .icon(DoubleChevronRightIcon)
+            //       //     .child(
+            //       //       S.documentList()
+            //       //         .title('Use Case Pages')
+            //       //         .schemaType('page')
+            //       //         .apiVersion('v2025-02-19')
+            //       //         .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "use-case"')
+            //       //     ),
+            //       //   S.listItem()
+            //       //     .title('Support Pages')
+            //       //     .icon(DoubleChevronRightIcon)
+            //       //     .child(
+            //       //       S.documentList()
+            //       //         .title('Support Pages')
+            //       //         .schemaType('page')
+            //       //         .apiVersion('v2025-02-19')
+            //       //         .filter('_type == "page" && defined(parent) && parent->metadata.slug.current == "support"')
+            //       //     )
+            //       // ])
+            //   ),
             S.listItem()
               .title('Resources')
               .icon(AddCircleIcon)

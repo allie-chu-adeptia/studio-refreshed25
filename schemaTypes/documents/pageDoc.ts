@@ -62,6 +62,7 @@ export const pageType = defineType({
         {type: 'textSection', options: {modal: true}},
         {type: 'testimonialSection', options: {modal: true}},
         {type: 'contentSectionCarousel', options: {modal: true}},
+        {type: 'careerSection', options: {modal: true}},
       ],
       validation: (Rule) => Rule.required(),
     })

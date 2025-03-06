@@ -20,11 +20,16 @@ export const contentSectionType = defineType({
       title: 'Image',
       type: 'image',
     }),
-    // defineField({
-    //   name: 'body',
-    //   title: 'Body',
-    //   type: 'portableText',
-    // }),
+    defineField({
+      name: 'animation',
+      title: 'Selected Animation',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'First Mile Data Types', value: 'firstMileDataTypes'},
+        ]
+      }
+    }),
     defineField({
       name: 'button',
       title: 'Button',
