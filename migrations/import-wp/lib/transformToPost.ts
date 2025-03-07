@@ -44,8 +44,6 @@ export async function transformToPost(
             type: 'Blog'
         }
 
-        console.log(`Processing post ${wpDoc.id}...`)
-
         doc.title = decode(wpDoc.title.rendered).trim()
 
         doc.metadata = {

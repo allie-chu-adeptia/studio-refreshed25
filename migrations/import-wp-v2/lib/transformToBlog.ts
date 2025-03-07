@@ -119,7 +119,7 @@ export async function transformToBlog(
             const metadata = await wpImageFetch(wpDoc.featured_media)
 
             if (metadata?.source?.url) {
-                console.log('Metadata URL found')
+
                 // Upload to Sanity
                 const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
 

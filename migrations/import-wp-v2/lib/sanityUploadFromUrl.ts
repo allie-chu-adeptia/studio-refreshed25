@@ -24,6 +24,5 @@ export async function sanityUploadFromUrl(
 
     return null
   }
-  console.log('Upload complete')
   return data
 }

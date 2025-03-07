@@ -13,7 +13,6 @@ const getSlugFromUrl = (url) => {
     // First check if it's just a path starting with /
     if (url.startsWith('/')) {
         const slug = url.split('/').filter(Boolean).pop() || ''
-        // console.log(`Found Adeptia URL: ${url} -> extracted slug: ${slug}`)
         return slug
     }
 
@@ -22,34 +21,28 @@ const getSlugFromUrl = (url) => {
         if (urlObj.hostname === 'www.adeptia.com' || urlObj.hostname === 'adeptia.com') {
             // Get the last segment of the path
             const slug = urlObj.pathname.split('/').filter(Boolean).pop() || ''
-            // console.log(`Found Adeptia URL: ${url} -> extracted slug: ${slug}`)
             return slug
         }
-        // console.log(`External URL found (not Adeptia): ${url}`)
         return null
     } catch (e) {
-        // console.error('Invalid URL:', url, e)
         return null
     }
 }
 
 // Fetch all pages to build a slug lookup map
 const fetchPages = async () => {
-    // console.log('Fetching all pages to build slug lookup map...')
     const pages = await client.fetch(`
     *[_type in ["page", "resource", "connector", "customer"]] {
       _id,
       "slug": metadata.slug.current
     }
   `)
-    // console.log(`Found ${pages.length} total pages`)
     const slugMap = pages.reduce((acc, page) => {
         if (page.slug) {
             acc[page.slug] = page._id
         }
         return acc
     }, {})
-    // console.log(`Built slug map with ${Object.keys(slugMap).length} entries`)
     return slugMap
 }
 
@@ -61,8 +54,6 @@ const processPortableText = (block, slugMap) => {
                 const slug = getSlugFromUrl(markDef.href)
 
                 if (slug && slugMap[slug]) {
-                    // console.log(`Converting URL to internal reference: ${markDef.href} -> ${slugMap[slug]}`)
-                    // Convert to internal link
                     return {
                         _key: markDef._key,
                         _type: 'internalLink',
@@ -72,8 +63,6 @@ const processPortableText = (block, slugMap) => {
                         }
                     }
                 } else if (!slug) {
-                    // console.log(`Keeping external link: ${markDef.href}`)
-                    // Keep as external link
                     return {
                         _key: markDef._key,
                         _type: 'link',
@@ -81,7 +70,6 @@ const processPortableText = (block, slugMap) => {
                         blank: true
                     }
                 } else {
-                    // Manual mapping for specific slugs that need custom handling
                     const manualSlugMapping = {
                         'adeptia-connect-application-connectors': 'connectors',
                         'compare-adeptia-product-tiers': 'pricing',
@@ -93,7 +81,6 @@ const processPortableText = (block, slugMap) => {
                     if (manualSlugMapping[slug]) {
                         const mappedSlug = manualSlugMapping[slug]
                         if (slugMap[mappedSlug]) {
-                            console.log(`Manual mapping: ${slug} -> ${mappedSlug} (${slugMap[mappedSlug]})`)
                             return {
                                 _key: markDef._key,
                                 _type: 'internalLink',
@@ -104,7 +91,6 @@ const processPortableText = (block, slugMap) => {
                             }
                         }
                     } else {
-                        console.log(`No mapping found for slug: ${slug}, Mapping to home page`)
                         return {
                             _key: markDef._key,
                             _type: 'internalLink',
@@ -115,7 +101,6 @@ const processPortableText = (block, slugMap) => {
                         }
                     }
                 }
-                // If slug exists but no matching page, keep original link
                 return markDef
             }
             return markDef
@@ -126,18 +111,15 @@ const processPortableText = (block, slugMap) => {
 
 // Fetch all resources with body content
 const fetchDocuments = async () => {
-    // console.log('Fetching documents to process...')
     const docs = await client.fetch(`*[_type == "resource" && type == "Blog" && defined(body)] | order(publishDate desc)[701...900] {
     _id,
     _rev,
     body
   }`)
-    // console.log(`Found ${docs.length} documents to process`)
     return docs
 }
 
 const buildPatches = (docs, slugMap) => {
-    // console.log('Building patches for documents...')
     const patches = docs.map(doc => ({
         id: doc._id,
         patch: {
@@ -148,19 +130,15 @@ const buildPatches = (docs, slugMap) => {
             ifRevisionID: doc._rev
         }
     }))
-    // console.log(`Built ${patches.length} patches`)
     return patches
 }
 
 const createTransaction = patches => {
-    // console.log('Creating transaction...')
     return patches.reduce((tx, patch) => tx.patch(patch.id, patch.patch), client.transaction())
 }
 
 const commitTransaction = async tx => {
-    // console.log('Committing transaction...')
     const result = await tx.commit()
-    // console.log('Transaction committed successfully')
     return result
 }
 
@@ -172,15 +150,8 @@ const migrateNextBatch = async () => {
         const patches = buildPatches(documents, slugMap)
 
         if (patches.length === 0) {
-            // console.log('No more documents to migrate!')
             return null
-        }
-
-        // console.log(
-        //     // `Migrating batch:\n %s`,
-        //     patches.map(patch => `${patch.id}`).join('\n')
-        // )
-
+        }ß
         const transaction = createTransaction(patches)
         await commitTransaction(transaction)
     } catch (error) {

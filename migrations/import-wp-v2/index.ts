@@ -29,14 +29,12 @@ export default defineMigration({
     // while (hasMore) {
       try {
         const wpData = await wpDataTypeFetch(wpType, page)
-        // console.log(wpData)
 
       if (Array.isArray(wpData) && wpData.length) {
         const docs = wpData.map((wpDoc) =>
           limit(async () => {
             wpDoc = wpDoc as WP_REST_API_Post
             const doc = await transformToBlog(wpDoc, client, existingImages)
-            // console.log('doc', doc)
             return doc
           })
         )

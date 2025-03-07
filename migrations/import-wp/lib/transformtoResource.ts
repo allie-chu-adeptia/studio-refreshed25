@@ -145,19 +145,13 @@ export async function transformToResource(
         try {
             // Featured Image
             if (typeof wpDoc.featured_media === 'number' && wpDoc.featured_media > 0) {
-                // console.log('Processing featured media:', wpDoc.featured_media);
                 if (existingImages[wpDoc.featured_media]) {
-                    // console.log('Using existing image:', existingImages[wpDoc.featured_media]);
                     doc.featuredImage = sanityIdToImageReference(existingImages[wpDoc.featured_media])
                 } else {
-                    // console.log('Fetching new image from WordPress');
                     const metadata = await wpImageFetch(wpDoc.featured_media as number)
-                    // console.log('Received metadata:', metadata);
 
                     if (metadata?.source?.url) {
-                        // console.log('Uploading image from URL:', metadata.source.url);
                         const asset = await sanityUploadFromUrl(metadata.source.url, client, metadata)
-                        // console.log('Upload result:', asset?._id);
 
                         if (asset) {
                             doc.featuredImage = sanityIdToImageReference(asset._id)
@@ -192,14 +186,6 @@ export async function transformToResource(
                     _key: uuid(),
                     _type: 'reference',
                     _ref: `category-${catId}`,
-                }))
-            }
-
-            if (Array.isArray(wpDoc.tags) && wpDoc.tags.length) {
-                doc.tag = wpDoc.tags.map((tagId) => ({
-                    _key: uuid(),
-                    _type: 'reference',
-                    _ref: `tag-${tagId}`,
                 }))
             }
         } catch (error) {

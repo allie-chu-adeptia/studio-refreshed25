@@ -1,5 +1,3 @@
-import {postType} from './documents/postType'
-
 // Block types
 import {bentoType} from './blocks/bentoBlock'
 import {caseStudyType} from './blocks/caseStudyBlock'
@@ -15,9 +13,9 @@ import {statsType} from './blocks/statsBlock'
 import {testimonialSectionType} from './blocks/testimonialBlock'
 import {contentSectionCarouselType} from './blocks/contentSectionCarouselBlock'
 import {careerType} from './blocks/careersBlock'
+import {teamMemberSectionType} from './blocks/teamMemberBlock'
 
 // Document Types
-// import {careerType} from './documents/careerDoc'
 import {categoryType} from './documents/categoryDoc'
 import {companyType} from './documents/companyDoc'
 import {connectorType} from './documents/connectorDoc'
@@ -25,7 +23,6 @@ import {ctaType} from './documents/ctaDoc'
 import {customerType} from './documents/customerDoc'
 import {pageType} from './documents/pageDoc'
 import {resourceType} from './documents/resourceDoc'
-import {tagType} from './documents/tagDoc'
 import {teamMemberType} from './documents/teamMemberDoc'
 import {textSectionType} from './blocks/textSection'
 import {testimonialType} from './documents/testimonialDoc'
@@ -61,6 +58,7 @@ export const schemaTypes = [
   statsType,
   testimonialSectionType,
   contentSectionCarouselType,
+  teamMemberSectionType,
   
   // Document Types
   // careerType,
@@ -70,9 +68,7 @@ export const schemaTypes = [
   ctaType,
   customerType,
   pageType,
-  postType,
   resourceType,
-  tagType,
   teamMemberType,
   textSectionType,
   testimonialType,
