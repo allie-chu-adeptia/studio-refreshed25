@@ -57,23 +57,23 @@ export const contentSectionType = defineType({
           },
           initialValue: 'center',
         }),
-        // defineField({
-        //   name: 'orientation',
-        //   title: 'Orientation',
-        //   type: 'string',
-        //   options: {
-        //     list: [
-        //       {title: 'Column', value: 'column'},
-        //       {title: 'Row', value: 'row'},
-        //     ],
-        //   },
-        //   initialValue: 'column',
-        // }),
         defineField({
           name: 'background',
           title: 'Background', 
           type: 'backgroundStyle',
           validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'spacing',
+          title: 'Spacing',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'Tight Top', value: 'tight-top'},
+              {title: 'Tight Bottom', value: 'tight-bottom'},
+              {title: 'Tight Top and Bottom', value: 'tight-top-bottom'},
+            ],
+          },
         }),
       ]
     }),

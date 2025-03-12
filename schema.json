@@ -2592,6 +2592,27 @@
                   "name": "backgroundStyle"
                 },
                 "optional": true
+              },
+              "spacing": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "tight-top"
+                    },
+                    {
+                      "type": "string",
+                      "value": "tight-bottom"
+                    },
+                    {
+                      "type": "string",
+                      "value": "tight-top-bottom"
+                    }
+                  ]
+                },
+                "optional": true
               }
             }
           },
