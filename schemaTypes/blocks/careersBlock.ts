@@ -15,9 +15,19 @@ export const careerType = defineType({
         type: 'headerStyle',
     }),
     defineField({
+      name: 'button',
+      title: 'Button',
+      type: 'button',
+    }),
+    defineField({
       name: 'careers',
       type: 'boolean',
       initialValue: false,
     }),
   ],
+  preview: {
+    select: {
+      title: 'header.header',
+    },
+  },
 })

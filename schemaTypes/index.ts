@@ -14,6 +14,7 @@ import {testimonialSectionType} from './blocks/testimonialBlock'
 import {contentSectionCarouselType} from './blocks/contentSectionCarouselBlock'
 import {careerType} from './blocks/careersBlock'
 import {teamMemberSectionType} from './blocks/teamMemberBlock'
+import {calloutType} from './blocks/calloutBlock'
 
 // Document Types
 import {categoryType} from './documents/categoryDoc'
@@ -59,9 +60,9 @@ export const schemaTypes = [
   testimonialSectionType,
   contentSectionCarouselType,
   teamMemberSectionType,
+  calloutType,
   
   // Document Types
-  // careerType,
   categoryType,
   companyType,
   connectorType,

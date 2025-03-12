@@ -12,6 +12,7 @@ export const backgroundStyle = defineType({
             options: {
                 list: [
                 {title: 'Light', value: 'light'},
+                {title: 'Off White', value: 'off-white'},
                 {title: 'Medium', value: 'medium'},
                 {title: 'Dark', value: 'dark'},
                 {title: 'Dark Accent', value: 'dark-accent'},
