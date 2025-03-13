@@ -2476,6 +2476,14 @@
           },
           "optional": true
         },
+        "content": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "portableText"
+          },
+          "optional": true
+        },
         "image": {
           "type": "objectAttribute",
           "value": {

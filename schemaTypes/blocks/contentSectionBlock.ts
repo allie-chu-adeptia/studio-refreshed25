@@ -16,6 +16,11 @@ export const contentSectionType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'content',
+      title: 'Content',
+      type: 'portableText',
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
