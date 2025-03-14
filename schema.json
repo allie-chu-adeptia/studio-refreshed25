@@ -2484,6 +2484,23 @@
           },
           "optional": true
         },
+        "imageSize": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "standard"
+              },
+              {
+                "type": "string",
+                "value": "large"
+              }
+            ]
+          },
+          "optional": true
+        },
         "image": {
           "type": "objectAttribute",
           "value": {

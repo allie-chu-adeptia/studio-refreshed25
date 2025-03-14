@@ -21,6 +21,17 @@ export const contentSectionType = defineType({
       type: 'portableText',
     }),
     defineField({
+      name: 'imageSize',
+      title: 'Image Size',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Standard', value: 'standard'},
+          {title: 'Large', value: 'large'},
+        ]
+      }
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
