@@ -36,7 +36,13 @@ export const portableTextType = defineField({
               {
                 name: 'href',
                 type: 'url',
-                title: 'URL'
+                title: 'URL',
+                validation: Rule => [
+                  Rule.uri({ 
+                    scheme: ["http", "https", "mailto", "tel", "ftp"],
+                    allowCredentials: true 
+                  })
+                ],          
               },
               {
                 name: 'blank',
