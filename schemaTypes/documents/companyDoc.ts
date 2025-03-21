@@ -54,6 +54,11 @@ export const companyType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'cookieConsent',
+      title: 'Cookie Consent',
+      type: 'portableText',
+    }),
+    defineField({
       name: 'socials',
       type: 'object',
       fields: [
