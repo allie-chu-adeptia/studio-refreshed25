@@ -21,10 +21,21 @@ export const ctaType = defineType({
       type: 'headerStyle',
     }),
     defineField({
+      name: 'buttonOrForm',
+      title: 'Button or Form',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Button', value: 'button'},
+          {title: 'Form', value: 'form'},
+        ]
+      }
+    }),
+    defineField({
       name: 'buttonText', 
       title: 'Button Text',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      hidden: ({ parent }) => parent?.buttonOrForm === 'form',
     }),
     defineField({
       name: 'displayStyle',
@@ -44,8 +55,15 @@ export const ctaType = defineType({
       title: 'Page Reference',
       type: 'reference',
       to: [{type: 'page'}],
-      validation: (Rule) => Rule.required(),
+      hidden: ({ parent }) => parent?.buttonOrForm === 'form',
     }),
+    defineField({
+      name: 'formReference',
+      title: 'Form Reference',
+      type: 'reference',
+      to: [{type: 'hubspotForm'}],
+      hidden: ({ parent }) => parent?.buttonOrForm === 'button',
+    })
   ],
   preview: {
     select: {

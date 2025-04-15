@@ -1076,6 +1076,23 @@
         },
         "optional": true
       },
+      "buttonOrForm": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "button"
+            },
+            {
+              "type": "string",
+              "value": "form"
+            }
+          ]
+        },
+        "optional": true
+      },
       "buttonText": {
         "type": "objectAttribute",
         "value": {
@@ -1131,6 +1148,36 @@
             }
           },
           "dereferencesTo": "page"
+        },
+        "optional": true
+      },
+      "formReference": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "_ref": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              }
+            },
+            "_type": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string",
+                "value": "reference"
+              }
+            },
+            "_weak": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "boolean"
+              },
+              "optional": true
+            }
+          },
+          "dereferencesTo": "hubspotForm"
         },
         "optional": true
       }
@@ -1232,6 +1279,14 @@
         "optional": true
       },
       "privacyPolicy": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "portableText"
+        },
+        "optional": true
+      },
+      "cookieConsent": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
